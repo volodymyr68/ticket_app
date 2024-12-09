@@ -13,6 +13,8 @@ RUN pecl install redis \
     && docker-php-ext-enable redis \
     && docker-php-ext-install pdo pdo_mysql
 
+RUN docker-php-ext-install pcntl
+
 # Копирование Composer из официального образа
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
