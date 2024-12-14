@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Contracts\Services\CityService\CityService;
 use App\Http\Requests\CityRequest;
 use App\Models\City;
-use App\Services\CityService\CityService;
 use Illuminate\Http\Request;
 
 class CityController extends Controller
@@ -12,36 +12,19 @@ class CityController extends Controller
     /**
      * @var CityService
      */
-    protected $cityService;
 
-    public function __construct(CityService $cityService)
+    public function __construct(protected CityService $cityService)
     {
-        $this->cityService = $cityService;
     }
+
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-//        $cities = $this->cityService->getAllPaginated(8);
-//        $cities = City::sortable()->paginate(5);
         $filter = $request->input('filter', '');
-        $cities = City::sortable()
-            ->where('name', 'like', '%' . $filter . '%')  // If you are filtering by name
-            ->paginate(5);
-        return view('cities.index')->with('cities', $cities);
-//        return view('cities.index',['cities'=>$cities]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        if(!$this->authorize('create', City::class)){
-            abort(403);
-        }
-        return view('cities.create');
+        $cities = $this->cityService->getFilteredCities($filter);
+        return view('cities.index', compact('cities'));
     }
 
     /**
@@ -49,12 +32,23 @@ class CityController extends Controller
      */
     public function store(CityRequest $request)
     {
-        if(!$this->authorize('create', City::class)){
+        if (!$this->authorize('create', City::class)) {
             abort(403);
         }
         $data = $request->except('_token');
         $city = $this->cityService->create($data);
-        return redirect()->route('cities.show',[$city]);
+        return redirect()->route('cities.show', [$city]);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        if (!$this->authorize('create', City::class)) {
+            abort(403);
+        }
+        return view('cities.create');
     }
 
     /**
@@ -62,7 +56,7 @@ class CityController extends Controller
      */
     public function show(City $city)
     {
-        if(!$this->authorize('view', $city)){
+        if (!$this->authorize('view', $city)) {
             abort(403);
         }
         return view('cities.show', ['city' => $city]);
@@ -73,7 +67,7 @@ class CityController extends Controller
      */
     public function edit(City $city)
     {
-        if(!$this->authorize('update', $city)){
+        if (!$this->authorize('update', $city)) {
             abort(403);
         }
         return view('cities.edit', ['city' => $city]);
@@ -84,15 +78,11 @@ class CityController extends Controller
      */
     public function update(CityRequest $request, City $city)
     {
-        if(!$this->authorize('update', $city)){
+        if (!$this->authorize('update', $city)) {
             abort(403);
         }
-        $data = $request->except('_token');
-        $updateResult = $this->cityService->update($city,$data);
-        if ($updateResult) {
-            return redirect()->route('cities.show', $city)->with('success', 'City updated successfully!');
-        }
-        return back()->with('error', 'Failed to update the city.');
+        $updatedCity = $this->cityService->update($city, $request->all());
+        return redirect()->route('cities.show', $updatedCity)->with('success', 'City updated successfully!');
     }
 
     /**

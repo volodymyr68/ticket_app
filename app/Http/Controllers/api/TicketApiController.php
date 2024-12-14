@@ -2,17 +2,14 @@
 
 namespace App\Http\Controllers\api;
 
-use App\Events\SendTicketEvent;
+use App\Contracts\Services\TicketService\TicketService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TicketRequest;
 use App\Http\Resources\TicketCollection;
 use App\Http\Resources\TicketResource;
 use App\Jobs\GenerateTicketPdf;
-use App\Models\Ticket;
-use App\Services\TicketService\TicketService;
 use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class TicketApiController extends Controller
 {
@@ -23,11 +20,12 @@ class TicketApiController extends Controller
 
     public function __construct(TicketService $ticketService, Request $request)
     {
-        if(!$request->expectsJson()){
+        if (!$request->expectsJson()) {
             abort(406);
         }
         $this->ticketService = $ticketService;
     }
+
     /**
      * Display a listing of the resource.
      */

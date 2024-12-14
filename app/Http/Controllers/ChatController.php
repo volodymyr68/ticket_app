@@ -2,19 +2,38 @@
 
 namespace App\Http\Controllers;
 
+use App\Contracts\Services\ChatService\ChatService;
+use App\Contracts\Services\UserService\UserService;
+use App\Http\Requests\ChatRequest;
 use App\Models\Chat;
-use App\Models\User;
-use Illuminate\Http\Request;
 
 class ChatController extends Controller
 {
+    public function __construct(
+        protected ChatService $chatService,
+        protected UserService $userService
+    )
+    {
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $chats = Chat::with(['client', 'manager'])->get();
+        $chats = $this->chatService->getAll();
         return view("chats.index", compact('chats'));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(ChatRequest $request)
+    {
+        $data = $request->all();
+        $data['manager_id'] = auth()->user()->id;
+        $this->chatService->create($data);
+        return redirect()->route('chats.index');
     }
 
     /**
@@ -22,19 +41,8 @@ class ChatController extends Controller
      */
     public function create()
     {
-        $clients = User::where('role_id', 1)->get();
+        $clients = $this->userService->getAllClients();
         return view("chats.create", compact('clients'));
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        $data = $request->all();
-        $data['manager_id'] = auth()->user()->id;
-        $chat = Chat::create($data);
-        return redirect()->route('chats.index');
     }
 
     /**
@@ -43,23 +51,7 @@ class ChatController extends Controller
     public function show(Chat $chat)
     {
         $messages = $chat->messages;
-        return view("chats.show", compact('chat','messages'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
+        return view("chats.show", compact('chat', 'messages'));
     }
 
     /**

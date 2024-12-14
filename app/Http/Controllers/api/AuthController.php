@@ -11,13 +11,14 @@ use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
-    public function register(Request $request){
-        $validateUser = Validator::make($request->all(),[
-            'name' => ['required','string','max:255'],
-            'email' => ['required','string','email','max:255','unique:users'],
-            'password' => ['required','string','min:8'],
+    public function register(Request $request)
+    {
+        $validateUser = Validator::make($request->all(), [
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8'],
         ]);
-        if($validateUser->fails()){
+        if ($validateUser->fails()) {
             return response()->json([
                 'message' => 'Validation failed',
                 'error' => $validateUser->errors()
@@ -26,7 +27,7 @@ class AuthController extends Controller
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' =>  Hash::make($request->password)
+            'password' => Hash::make($request->password)
         ]);
         return response()->json([
             'token' => $user->createToken("API Token")->plainTextToken,
@@ -35,28 +36,44 @@ class AuthController extends Controller
         ], 201);
     }
 
-    public function login(Request $request){
-        $validateUser = Validator::make($request->all(),[
-            'email' => ['required','string','email'],
-            'password' => ['required','string']
+    public function login(Request $request)
+    {
+        $validateUser = Validator::make($request->all(), [
+            'email' => ['required', 'string', 'email'],
+            'password' => ['required', 'string']
         ]);
-        if($validateUser->fails()){
+        if ($validateUser->fails()) {
             return response()->json([
                 'message' => 'Validation failed',
                 'error' => $validateUser->errors()
             ], 422);
         }
-        if(!auth()->attempt($request->only('email','password'))){
+        if (!auth()->attempt($request->only('email', 'password'))) {
             return response()->json([
                 'message' => 'Invalid credentials'
             ], 401);
         }
 
-        $user = User::where('email',$request->email)->first();
+        $user = User::where('email', $request->email)->first();
 
         return response()->json([
             'token' => $user->createToken("API Token")->plainTextToken,
             'token_type' => 'Bearer',
         ]);
+    }
+
+    public function loginRedirect(Request $request)
+    {
+        if ($request->query('google') !== null && $request->query('google') == 1) {
+
+            $user = User::where('id', $request->query('user'))->first();
+            $token = $user->createToken("API Token")->plainTextToken;
+            $cookie = cookie('apiToken', $token, 60 * 24, null, null, false, false);
+
+            return redirect('http://localhost:5173/')
+                ->withCookie($cookie)
+                ->with('user', new UserResource($user));
+        }
+        return redirect('http://localhost:5173/');
     }
 }

@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\api;
 
+use App\Contracts\Services\VehicleService\VehicleService;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\VehicleCollection;
 use App\Http\Resources\VehicleResource;
 use App\Models\Vehicle;
-use App\Services\VehicleService\VehicleService;
 use Illuminate\Http\Request;
 
 class VehicleApiController extends Controller
@@ -15,11 +15,12 @@ class VehicleApiController extends Controller
 
     public function __construct(VehicleService $vehicleService, Request $request)
     {
-        if(!$request->expectsJson()) {
+        if (!$request->expectsJson()) {
             abort(406);
         }
         $this->vehicleService = $vehicleService;
     }
+
     /**
      * Display a listing of the resource.
      */

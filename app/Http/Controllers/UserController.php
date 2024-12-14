@@ -2,82 +2,34 @@
 
 namespace App\Http\Controllers;
 
+use App\Contracts\Services\RoleService\RoleService;
+use App\Contracts\Services\UserService\UserService;
 use App\Http\Requests\UserRequest;
 use App\Models\Role;
 use App\Models\User;
-use App\Services\RoleService\RoleService;
-use App\Services\UserService\UserService;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    protected $userService;
-    protected $roleService;
 
-    public function __construct(UserService $userService,RoleService $roleService)
+
+    public function __construct(
+        protected UserService $userService,
+        protected RoleService $roleService
+    )
     {
-        $this->userService = $userService;
-        $this->roleService = $roleService;
     }
+
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-        $query = User::query();
-
-        // Фильтры
-        if ($request->filled('role')) {
-            $query->whereHas('role', function ($q) use ($request) {
-                $q->where('name', $request->input('role'));
-            });
-        }
-
-        if ($request->filled('sex')) {
-            $query->where('sex', $request->input('sex'));
-        }
-
-        if ($request->filled('search')) {
-            $query->where('name', 'like', '%' . $request->input('search') . '%')
-                ->orWhere('email', 'like', '%' . $request->input('search') . '%');
-        }
-
-        // Сортировка
-        $sortableFields = ['name', 'email', 'number'];
-        $sortField = $request->input('sort', 'id');
-        $sortDirection = $request->input('direction', 'asc');
-
-        if (in_array($sortField, $sortableFields)) {
-            $query->orderBy($sortField, $sortDirection);
-        }
-
-        $users = $query->paginate(10)->appends($request->query());
-        $roles = Role::all(); // Предположительно, у вас есть таблица ролей
-        return view('users.index', compact('users', 'roles'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        if(!$this->authorize('create', User::class)){
-            abort(403);
-        }
+        $filters = $request->only(['role', 'sex', 'search']);
+        $users = $this->userService->getSortedUsers($filters, 10);
         $roles = $this->roleService->getAll();
-        return view('users.create',['roles'=>$roles]);
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(UserRequest $request)
-    {
-        if(!$this->authorize('create', User::class)){
-            abort(403);
-        }
-        $user = $this->userService->create($request->all());
-        return redirect()->route('user.show',[$user]);
+        return view('users.index', compact('users', 'roles'));
     }
 
     /**
@@ -85,7 +37,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        if(!$this->authorize('view', $user)){
+        if (!$this->authorize('view', $user)) {
             abort(403);
         }
         return view('users.show', ['user' => $user]);
@@ -96,11 +48,11 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        if(!$this->authorize('update', $user)){
+        if (!$this->authorize('update', $user)) {
             abort(403);
         }
         $roles = Role::all();
-        return view('users.edit', ['user' => $user,'roles'=>$roles]);
+        return view('users.edit', ['user' => $user, 'roles' => $roles]);
     }
 
     /**
@@ -116,10 +68,33 @@ class UserController extends Controller
         if ($request->hasFile('image')) {
             $data['image'] = $request->file('image')->store('user_images', 'public');
         }
-        $updatedUser = $this->userService->update($user,$data);
-        if ($updatedUser) {
-            return redirect()->route('user.show', [$user->id]);
+        $updatedUser = $this->userService->update($user, $data);
+
+        return redirect()->route('user.show', [$updatedUser->id]);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(UserRequest $request)
+    {
+        if (!$this->authorize('create', User::class)) {
+            abort(403);
         }
+        $user = $this->userService->create($request->all());
+        return redirect()->route('user.show', [$user]);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        if (!$this->authorize('create', User::class)) {
+            abort(403);
+        }
+        $roles = $this->roleService->getAll();
+        return view('users.create', ['roles' => $roles]);
     }
 
     /**
