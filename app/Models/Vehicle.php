@@ -32,7 +32,6 @@ class Vehicle extends Model
     ];
 
 
-
     public function departureCity(): BelongsTo
     {
         return $this->belongsTo(City::class, 'departure_city_id');
@@ -45,7 +44,7 @@ class Vehicle extends Model
 
     public function tickets(): HasMany
     {
-        return $this->hasMany(Ticket::class,'vehicle_id');
+        return $this->hasMany(Ticket::class, 'vehicle_id');
     }
 
 }

@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\City;
 use App\Models\Vehicle;
-use DateTime;
 use Illuminate\Database\Seeder;
 
 class VehicleSeeder extends Seeder

@@ -12,21 +12,18 @@ class City extends Model
     use HasFactory;
     use Sortable;
 
-    protected $fillable = ['name'];
-
     public $sortable = [
         'name'
     ];
-
-
+    protected $fillable = ['name'];
 
     public function departure_vehicles(): HasMany
     {
-        return $this->hasMany(Vehicle::class,'departure_city_id');
+        return $this->hasMany(Vehicle::class, 'departure_city_id');
     }
 
     public function destination_vehicles(): HasMany
     {
-        return $this->hasMany(Vehicle::class,'destination_city_id');
+        return $this->hasMany(Vehicle::class, 'destination_city_id');
     }
 }

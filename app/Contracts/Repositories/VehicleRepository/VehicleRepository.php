@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Repositories\VehicleRepository;
+namespace App\Contracts\Repositories\VehicleRepository;
 
-use App\Models\City;
+use App\Contracts\Repositories\BaseRepository;
 use App\Models\Vehicle;
-use App\Repositories\BaseRepository;
 
 class VehicleRepository extends BaseRepository implements VehicleRepositoryInterface
 {
-    public function __construct(Vehicle $model){
+    public function __construct(Vehicle $model)
+    {
         parent::__construct($model);
     }
 
@@ -47,4 +47,24 @@ class VehicleRepository extends BaseRepository implements VehicleRepositoryInter
         return $query->paginate(9);
     }
 
+    public function getSortedVehicles(?array $filters, int $perPage = 10)
+    {
+        return Vehicle::sortable()
+            ->when(!empty($filters['quality']), function ($query) use ($filters) {
+                $query->where('quality', 'like', '%' . $filters['quality'] . '%');
+            })
+            ->when(!empty($filters['departure_city_id']), function ($query) use ($filters) {
+                $query->where('departure_city_id', $filters['departure_city_id']);
+            })
+            ->when(!empty($filters['destination_city_id']), function ($query) use ($filters) {
+                $query->where('destination_city_id', $filters['destination_city_id']);
+            })
+            ->when(!empty($filters['ticket_cost']), function ($query) use ($filters) {
+                $query->where('ticket_cost', '<=', $filters['ticket_cost']);
+            })
+            ->when(!empty($filters['seats_quantity']), function ($query) use ($filters) {
+                $query->where('seats_quantity', '>=', $filters['seats_quantity']);
+            })
+            ->paginate($perPage);
+    }
 }

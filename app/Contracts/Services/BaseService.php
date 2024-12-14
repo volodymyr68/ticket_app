@@ -1,20 +1,23 @@
 <?php
 
-namespace App\Services;
+namespace App\Contracts\Services;
 
+use App\Contracts\Repositories\BaseRepository;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 abstract class BaseService
 {
     /**
-     * @var \App\Repositories\BaseRepository
+     * @var BaseRepository
      */
     protected $repository;
 
     /**
      * BaseService constructor.
      *
-     * @param \App\Repositories\BaseRepository $repository
+     * @param BaseRepository $repository
      */
     public function __construct($repository)
     {
@@ -24,7 +27,7 @@ abstract class BaseService
     /**
      * Get all records.
      *
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @return Collection
      */
     public function getAll()
     {
@@ -35,7 +38,7 @@ abstract class BaseService
      * Get all records paginated.
      *
      * @param int $perPage
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     * @return LengthAwarePaginator
      */
     public function getAllPaginated(int $perPage = 15)
     {

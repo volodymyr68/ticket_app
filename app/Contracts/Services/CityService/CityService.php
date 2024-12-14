@@ -1,19 +1,22 @@
 <?php
 
-namespace App\Services\CityService;
+namespace App\Contracts\Services\CityService;
 
-use App\Repositories\CityRepository\CityRepository;
-use App\Services\BaseService;
+use App\Contracts\Repositories\CityRepository\CityRepository;
+use App\Contracts\Services\BaseService;
 
 class CityService extends BaseService
 {
-    /**
-     * CityService constructor.
-     *
-     * @param CityRepository $repository
-     */
-    public function __construct(CityRepository $repository)
+
+    public function __construct(
+        protected CityRepository $cityRepository
+    )
     {
-        parent::__construct($repository);
+        parent::__construct($cityRepository);
+    }
+
+    public function getFilteredCities($filter)
+    {
+        return $this->cityRepository->getFilteredCities($filter);
     }
 }

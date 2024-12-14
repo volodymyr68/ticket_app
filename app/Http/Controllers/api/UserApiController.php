@@ -23,8 +23,9 @@ class UserApiController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index()
     {
+        $this->authorizeAction('viewAny');
         return new UserResource(auth()->user());
     }
 
@@ -33,18 +34,14 @@ class UserApiController extends Controller
      */
     public function update(UserUpdateApiRequest $request)
     {
-        if (!$this->authorize('update', auth()->user())) {
-            abort(403);
-        }
+        $this->authorizeAction('update');
         $data = $request->except('image');
 
         if ($request->hasFile('image')) {
             $data['image'] = $request->file('image')->store('user_images', 'public');
         }
         $updatedUser = $this->userService->update(auth()->user(), $data);
-        if ($updatedUser) {
-            return new UserResource(auth()->user());
-        }
 
+        return new UserResource($updatedUser);
     }
 }

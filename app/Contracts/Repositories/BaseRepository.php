@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Contracts\Repositories;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -43,17 +43,6 @@ abstract class BaseRepository
     }
 
     /**
-     * Find a record by ID.
-     *
-     * @param int $id
-     * @return Model|null
-     */
-    public function find(int $id)
-    {
-        return $this->model->find($id);
-    }
-
-    /**
      * Create a new record.
      *
      * @param array $data
@@ -69,17 +58,24 @@ abstract class BaseRepository
      *
      * @param Model $model
      * @param array $data
-     * @return bool
+     * @return Model
      */
     public function update($idOrModel, array $data)
     {
         $record = $idOrModel instanceof Model ? $idOrModel : $this->find($idOrModel);
+        $record->update($data);
+        return $record;
+    }
 
-        if ($record) {
-            return $record->update($data);
-        }
-
-        return false;
+    /**
+     * Find a record by ID.
+     *
+     * @param int $id
+     * @return Model|null
+     */
+    public function find(int $id)
+    {
+        return $this->model->find($id);
     }
 
     /**

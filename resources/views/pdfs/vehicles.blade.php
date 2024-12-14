@@ -1,68 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    @vite('resources/css/pdfs/vehicles.css')
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vehicles Report</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            font-size: 12px;
-            color: #333;
-            margin: 0;
-            padding: 0;
-        }
-
-        .container {
-            margin: 20px;
-        }
-
-        h1 {
-            text-align: center;
-            color: #007bff;
-            margin-bottom: 20px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
-
-        table, th, td {
-            border: 1px solid #ddd;
-        }
-
-        th, td {
-            padding: 10px;
-            text-align: left;
-        }
-
-        th {
-            background-color: #343a40;
-            color: white;
-        }
-
-        tbody tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-
-        tbody tr:hover {
-            background-color: #f1f1f1;
-        }
-
-        .footer {
-            text-align: center;
-            font-size: 10px;
-            color: #555;
-            margin-top: 20px;
-        }
-
-        /* Page break style */
-        .page-break {
-            page-break-after: always;
-        }
-    </style>
 </head>
 <body>
 <div class="container">
@@ -98,14 +40,43 @@
         </tbody>
     </table>
 
-    <!-- Add page break if necessary (in case of pagination) -->
-    @if ($page < $totalPages)
-        <div class="page-break"></div>
-    @endif
+    <!-- Statistics Section -->
+    <div class="statistics">
+        <h3>Summary Statistics</h3>
+        <p><strong>Total Vehicles:</strong> {{ count($vehicles) }}</p>
+        <p><strong>Total Seats Sold:</strong>
+            {{ $vehicles->sum('seats_quantity') }}
+        </p>
+        <p><strong>Total Ticket Revenue:</strong>
+            ${{ number_format($vehicles->sum('ticket_cost'), 2) }}
+        </p>
+        <p><strong>Average Ticket Price:</strong>
+            ${{ number_format($vehicles->avg('ticket_cost'), 2) }}
+        </p>
+        <p><strong>Highest Ticket Price:</strong>
+            ${{ number_format($vehicles->max('ticket_cost'), 2) }}
+        </p>
+        <p><strong>Lowest Ticket Price:</strong>
+            ${{ number_format($vehicles->min('ticket_cost'), 2) }}
+        </p>
 
-    <!-- Footer for page number -->
+        <!-- Most Popular Quality -->
+        <p><strong>Most Popular Quality:</strong>
+            {{ $vehicles->groupBy('quality')->sortByDesc(function ($quality) {
+                return $quality->count();
+            })->keys()->first() ?? 'N/A' }}
+        </p>
+
+        <!-- Departure City with Most Vehicles -->
+        <p><strong>City with Most Vehicles:</strong>
+            {{ $vehicles->groupBy('departureCity.name')->sortByDesc(function ($city) {
+                return $city->count();
+            })->keys()->first() ?? 'N/A' }}
+        </p>
+    </div>
+
     <div class="footer">
-        <p>Generated on {{ now()->format('d M Y, H:i') }} - Page {{ $page }} of {{ $totalPages }}</p>
+        <p>Generated on {{ now()->format('d M Y, H:i') }} </p>
     </div>
 </div>
 </body>

@@ -26,6 +26,7 @@ class CityApiController extends Controller
      */
     public function index()
     {
+        $this->authorizeAction('viewAny');
         return response($this->cityService->getAll(), 200);
     }
 }

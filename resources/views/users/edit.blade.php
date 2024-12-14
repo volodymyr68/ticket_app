@@ -35,7 +35,8 @@
                         <label for="role_id">Role</label>
                         <select name="role_id" id="role_id" class="form-control @error('role_id') is-invalid @enderror">
                             @foreach($roles as $role)
-                                <option value="{{ $role->id }}" {{ old('role_id', $user->role_id) == $role->id ? 'selected' : '' }}>
+                                <option
+                                    value="{{ $role->id }}" {{ old('role_id', $user->role_id) == $role->id ? 'selected' : '' }}>
                                     {{ $role->name }}
                                 </option>
                             @endforeach
@@ -50,8 +51,10 @@
                         <select name="sex" id="sex" class="form-control @error('sex') is-invalid @enderror">
                             <option value="">Not specified</option>
                             <option value="male" {{ old('sex', $user->sex) == 'male' ? 'selected' : '' }}>Male</option>
-                            <option value="female" {{ old('sex', $user->sex) == 'female' ? 'selected' : '' }}>Female</option>
-                            <option value="other" {{ old('sex', $user->sex) == 'other' ? 'selected' : '' }}>Other</option>
+                            <option value="female" {{ old('sex', $user->sex) == 'female' ? 'selected' : '' }}>Female
+                            </option>
+                            <option value="other" {{ old('sex', $user->sex) == 'other' ? 'selected' : '' }}>Other
+                            </option>
                         </select>
                         @error('sex')
                         <div class="text-danger">{{ $message }}</div>
@@ -69,7 +72,8 @@
 
                     <div class="form-group">
                         <label for="image">Profile Image</label>
-                        <input type="file" name="image" id="image" class="form-control @error('image') is-invalid @enderror">
+                        <input type="file" name="image" id="image"
+                               class="form-control @error('image') is-invalid @enderror">
                         @error('image')
                         <div class="text-danger">{{ $message }}</div>
                         @enderror
@@ -78,7 +82,8 @@
                     <div class="form-group">
                         @if($user->image)
                             <div class="mt-2">
-                                <img src="{{ asset('storage/' . $user->image) }}" alt="User Image" class="img-fluid user-image">
+                                <img src="{{ asset('storage/' . $user->image) }}" alt="User Image"
+                                     class="img-fluid user-image">
                             </div>
                         @else
                             <span>No image uploaded</span>

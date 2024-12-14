@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Repositories\RoleRepository;
+namespace App\Contracts\Repositories\RoleRepository;
 
+use App\Contracts\Repositories\BaseRepository;
 use App\Models\Role;
-use App\Repositories\BaseRepository;
 
 class RoleRepository extends BaseRepository
 {
-    public function __construct(Role $model){
+    public function __construct(Role $model)
+    {
         parent::__construct($model);
     }
 }

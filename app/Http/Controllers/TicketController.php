@@ -23,6 +23,7 @@ class TicketController extends Controller
      */
     public function index(Request $request)
     {
+        $this->authorizeAction('viewAny');
         $filters = $request->only(['vehicle_id', 'min_price', 'max_price']);
 
         $tickets = $this->ticketService->getFilteredTickets($filters);
@@ -36,6 +37,7 @@ class TicketController extends Controller
      */
     public function store(TicketRequest $request)
     {
+        $this->authorizeAction('create');
         $ticket = $this->ticketService->createTicket($request->all());
         return redirect()->route('ticket.show', [$ticket]);
     }
@@ -45,9 +47,7 @@ class TicketController extends Controller
      */
     public function show(Ticket $ticket)
     {
-        if (!$this->authorize('view', $ticket)) {
-            abort(403);
-        }
+        $this->authorizeAction('view');
         return view('tickets.show', ['ticket' => $ticket]);
     }
 

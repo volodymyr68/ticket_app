@@ -26,6 +26,7 @@ class VehicleController extends Controller
      */
     public function index(Request $request)
     {
+        $this->authorizeAction('viewAny');
         $filters = $request->only(['quality', 'departure_city_id', 'destination_city_id', 'ticket_cost', 'seats_quantity']);
 
         $vehicles = $this->vehicleService->getSortedVehicles($filters, 10);
@@ -39,9 +40,7 @@ class VehicleController extends Controller
      */
     public function store(VehicleCreateRequest $request)
     {
-//        if(!$this->authorize('create', Vehicle::class)){
-//            abort(403);
-//        }
+        $this->authorizeAction('create');
         $vehicle = $this->vehicleService->create($request->all());
         return redirect()->route('vehicle.show', [$vehicle]);
     }
@@ -51,9 +50,7 @@ class VehicleController extends Controller
      */
     public function create()
     {
-//        if(!$this->authorize('create', Vehicle::class)){
-//            abort(403);
-//        }
+        $this->authorizeAction('create');
         $cities = $this->cityService->getAll();
         return view('vehicles.create', ["cities" => $cities]);
     }
@@ -63,9 +60,7 @@ class VehicleController extends Controller
      */
     public function show(Request $request, Vehicle $vehicle)
     {
-//        if(!$this->authorize('view', $vehicle)){
-//            abort(403);
-//
+        $this->authorizeAction('view');
         return view('vehicles.show', ['vehicle' => $vehicle]);
     }
 
@@ -74,9 +69,7 @@ class VehicleController extends Controller
      */
     public function edit(Vehicle $vehicle)
     {
-//        if(!$this->authorize('update', $vehicle)){
-//            abort(403);
-//        }
+        $this->authorizeAction('update');
         $cities = $this->cityService->getAll();
         return view('vehicles.edit', ['vehicle' => $vehicle, 'cities' => $cities]);
     }
@@ -86,9 +79,7 @@ class VehicleController extends Controller
      */
     public function update(VehicleCreateRequest $request, Vehicle $vehicle)
     {
-//        if(!$this->authorize('update', $vehicle)){
-//            abort(403);
-//        }
+        $this->authorizeAction('update');
         $vehicle = $this->vehicleService->update($vehicle, $request->all());
         return redirect()->route('vehicle.show', [$vehicle]);
     }

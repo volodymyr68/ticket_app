@@ -23,10 +23,11 @@ class VehicleRequest extends FormRequest
     {
         return [
             'departure_city_id' => ['required', 'integer', 'exists:cities,id'],
-            'destination_city_id' => ['required', 'integer','exists:cities,id'],
-            'seats_quantity' => ['required', 'integer','min:1','max:4'],
+            'destination_city_id' => ['required', 'integer', 'exists:cities,id'],
+            'seats_quantity' => ['required', 'integer', 'min:1', 'max:4'],
         ];
     }
+
     public function messages(): array
     {
         return [

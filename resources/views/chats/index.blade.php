@@ -3,7 +3,6 @@
 @section('content')
     <h1>Chats</h1>
 
-    <!-- Button to create a new chat -->
     <div style="margin-bottom: 20px;">
         <a href="{{ route('chats.create') }}" class="btn btn-success">Create New Chat</a>
     </div>
@@ -27,14 +26,15 @@
                     <td style="border: 1px solid #ddd; padding: 10px;">{{ $chat->client->name ?? 'Unknown' }}</td>
                     <td style="border: 1px solid #ddd; padding: 10px;">{{ $chat->manager->name ?? 'Not Assigned' }}</td>
                     <td style="border: 1px solid #ddd; padding: 10px;">
-                        <!-- Button to view chat -->
-                        <a href="{{ route('chats.show', $chat->id) }}" class="btn btn-primary" style="margin-right: 10px;">Show</a>
+                        <a href="{{ route('chats.show', $chat->id) }}" class="btn btn-primary"
+                           style="margin-right: 10px;">Show</a>
 
-                        <!-- Button to delete chat -->
                         <form action="{{ route('chats.destroy', $chat->id) }}" method="POST" style="display: inline;">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure?')">
+                                Delete
+                            </button>
                         </form>
                     </td>
                 </tr>

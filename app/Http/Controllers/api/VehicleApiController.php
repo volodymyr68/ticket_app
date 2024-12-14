@@ -26,6 +26,7 @@ class VehicleApiController extends Controller
      */
     public function index(Request $request)
     {
+        $this->authorizeAction('viewAny');
         $filters = $request->only([
             'departure_city_id',
             'destination_city_id',
@@ -45,11 +46,8 @@ class VehicleApiController extends Controller
      */
     public function show(Vehicle $vehicle)
     {
-//        if(!$this->authorize('view', $vehicle)){
-//            abort(403);
-//        }
+        $this->authorizeAction('view');
         return new VehicleResource($vehicle);
     }
-
 
 }

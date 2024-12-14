@@ -22,10 +22,10 @@ class VehicleCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'departure_city_id' => ['required','exists:cities,id'],
-            'destination_city_id' => ['required','exists:cities,id'],
-            'seats_quantity' => ['required', 'integer','min:1','max:100'],
-            'ticket_cost' => ['required', 'integer','min:1','max:1000'],
+            'departure_city_id' => ['required', 'exists:cities,id'],
+            'destination_city_id' => ['required', 'exists:cities,id'],
+            'seats_quantity' => ['required', 'integer', 'min:1', 'max:100'],
+            'ticket_cost' => ['required', 'integer', 'min:1', 'max:1000'],
             'departure_time' => ['required', 'date'],
             'quality' => ['required', 'string', 'in:Premium,Low,Middle']
         ];

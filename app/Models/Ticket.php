@@ -12,14 +12,14 @@ class Ticket extends Model
     use HasFactory;
     use Sortable;
 
-    protected $fillable =[
+    protected $fillable = [
         'user_id',
         'vehicle_id',
         'seats_taken',
         'price'
     ];
 
-    protected $sortable =[
+    protected $sortable = [
         'user_id',
         'vehicle_id',
         'seats_taken',

@@ -1,38 +1,7 @@
 @extends('layouts.main')
 
 @section('content')
-    <style>
-        .form-container {
-            max-width: 600px;
-            margin: 0 auto;
-            background-color: #f9f9f9;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        .form-header {
-            background-color: #007bff;
-            color: white;
-            padding: 15px;
-            border-radius: 8px 8px 0 0;
-            font-size: 18px;
-        }
-        .form-body {
-            padding: 20px;
-        }
-        .btn-group {
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-        }
-        .btn-primary {
-            background-color: #007bff;
-            border-color: #007bff;
-        }
-        .btn-secondary {
-            background-color: #6c757d;
-            border-color: #6c757d;
-        }
-    </style>
+    @vite('resources/css/vehicles/create.css')
 
     <div class="container mt-5">
         <div class="form-container">
@@ -44,7 +13,8 @@
                     @csrf
                     <div class="mb-4">
                         <label for="quality" class="form-label">Quality</label>
-                        <select id="quality" name="quality" class="form-control @error('quality') is-invalid @enderror" required>
+                        <select id="quality" name="quality" class="form-control @error('quality') is-invalid @enderror"
+                                required>
                             <option value="" disabled selected>Select quality</option>
                             <option value="Low" {{ old('quality') == 'Low' ? 'selected' : '' }}>Low</option>
                             <option value="Middle" {{ old('quality') == 'Middle' ? 'selected' : '' }}>Middle</option>
@@ -56,10 +26,12 @@
                     </div>
                     <div class="mb-4">
                         <label for="departure_city_id" class="form-label">Departure City</label>
-                        <select id="departure_city_id" name="departure_city_id" class="form-control @error('departure_city_id') is-invalid @enderror" required>
+                        <select id="departure_city_id" name="departure_city_id"
+                                class="form-control @error('departure_city_id') is-invalid @enderror" required>
                             <option value="" disabled selected>Select departure city</option>
                             @foreach($cities as $city)
-                                <option value="{{ $city->id }}" {{ old('departure_city_id') == $city->id ? 'selected' : '' }}>{{ $city->name }}</option>
+                                <option
+                                    value="{{ $city->id }}" {{ old('departure_city_id') == $city->id ? 'selected' : '' }}>{{ $city->name }}</option>
                             @endforeach
                         </select>
                         @error('departure_city_id')
@@ -68,10 +40,12 @@
                     </div>
                     <div class="mb-4">
                         <label for="destination_city_id" class="form-label">Destination City</label>
-                        <select id="destination_city_id" name="destination_city_id" class="form-control @error('destination_city_id') is-invalid @enderror" required>
+                        <select id="destination_city_id" name="destination_city_id"
+                                class="form-control @error('destination_city_id') is-invalid @enderror" required>
                             <option value="" disabled selected>Select destination city</option>
                             @foreach($cities as $city)
-                                <option value="{{ $city->id }}" {{ old('destination_city_id') == $city->id ? 'selected' : '' }}>{{ $city->name }}</option>
+                                <option
+                                    value="{{ $city->id }}" {{ old('destination_city_id') == $city->id ? 'selected' : '' }}>{{ $city->name }}</option>
                             @endforeach
                         </select>
                         @error('destination_city_id')

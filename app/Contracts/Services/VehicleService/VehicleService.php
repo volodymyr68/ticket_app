@@ -1,22 +1,27 @@
 <?php
 
-namespace App\Services\VehicleService;
+namespace App\Contracts\Services\VehicleService;
 
-use App\Repositories\VehicleRepository\VehicleRepository;
-use App\Services\BaseService;
+use App\Contracts\Repositories\VehicleRepository\VehicleRepository;
+use App\Contracts\Services\BaseService;
 
 class VehicleService extends BaseService
 {
-    protected $vehicleRepository;
 
-    public function __construct(VehicleRepository $vehicleRepository)
+    public function __construct(
+        protected VehicleRepository $vehicleRepository
+    )
     {
         parent::__construct($vehicleRepository);
-        $this->vehicleRepository = $vehicleRepository;
     }
 
     public function getFilteredVehicles($filters)
     {
         return $this->vehicleRepository->getVehiclesByFilters($filters);
+    }
+
+    public function getSortedVehicles(?array $filters, int $perPage = 10)
+    {
+        return $this->vehicleRepository->getSortedVehicles($filters, $perPage);
     }
 }

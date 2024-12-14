@@ -15,6 +15,7 @@ RUN pecl install redis \
 
 RUN docker-php-ext-install pcntl
 
+
 # Копирование Composer из официального образа
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 

@@ -1,48 +1,7 @@
 @extends('layouts.main')
 
 @section('content')
-    <style>
-        .form-container {
-            max-width: 600px;
-            margin: 0 auto;
-            background-color: #f9f9f9;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .form-header {
-            background-color: #007bff;
-            color: white;
-            padding: 15px;
-            border-radius: 8px 8px 0 0;
-            font-size: 18px;
-        }
-
-        .form-body {
-            padding: 20px;
-        }
-
-        .btn-group {
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-        }
-
-        .btn-primary {
-            background-color: #007bff;
-            border-color: #007bff;
-        }
-
-        .btn-secondary {
-            background-color: #6c757d;
-            border-color: #6c757d;
-        }
-
-        .invalid-feedback {
-            color: red;
-            font-size: 0.875rem;
-        }
-    </style>
+    @vite('resources/css/vehicles/edit.css')
 
     <div class="container mt-5">
         <div class="form-container">
@@ -63,8 +22,10 @@
                             required
                         >
                             <option value="Low" {{ $vehicle->quality === 'Low' ? 'selected' : '' }}>Low</option>
-                            <option value="Middle" {{ $vehicle->quality === 'Middle' ? 'selected' : '' }}>Middle</option>
-                            <option value="Premium" {{ $vehicle->quality === 'Premium' ? 'selected' : '' }}>Premium</option>
+                            <option value="Middle" {{ $vehicle->quality === 'Middle' ? 'selected' : '' }}>Middle
+                            </option>
+                            <option value="Premium" {{ $vehicle->quality === 'Premium' ? 'selected' : '' }}>Premium
+                            </option>
                         </select>
                         @error('quality')
                         <div class="invalid-feedback">{{ $message }}</div>

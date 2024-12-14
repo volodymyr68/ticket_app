@@ -13,8 +13,8 @@ class CitySeeder extends Seeder
     public function run(): void
     {
         $cityArray = ['Poltava', 'Kyiv', 'Kharkiv'];
-        foreach ($cityArray as $city){
-            $tasks[] =[
+        foreach ($cityArray as $city) {
+            $tasks[] = [
                 'name' => $city,
                 'created_at' => now(),
                 'updated_at' => now(),

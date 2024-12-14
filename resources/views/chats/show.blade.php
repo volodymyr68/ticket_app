@@ -12,23 +12,30 @@
 
     <h2>Messages</h2>
 
-    @if($messages->isEmpty())
-        <p>No messages in this chat yet.</p>
-    @else
-        <ul id="messages-list">
-            @foreach($messages as $message)
-                <li>
-                    <p>
-                        <strong>{{ $message->sender->name ?? 'Unknown' }}:</strong>
-                        {{ $message->message }}
-                    </p>
-                    <p style="font-size: 0.8em; color: #777;">
-                        Sent at: {{ $message->created_at->format('d M Y, H:i') }}
-                    </p>
-                </li>
-            @endforeach
-        </ul>
-    @endif
+    <div id="chat-container"
+         style="border: 1px solid #ccc; padding: 10px; height: 300px; overflow-y: auto; background-color: #f9f9f9;">
+        @if($messages->isEmpty())
+            <p>No messages in this chat yet.</p>
+        @else
+            <ul id="messages-list" style="list-style: none; padding: 0;">
+                @foreach($messages as $message)
+                    <li class="message-item" style="display: flex; margin-bottom: 10px;">
+                        <div
+                            style="flex: 1; {{ $message->sender_id == $chat->client_id ? 'text-align: left;' : 'text-align: right;' }}">
+                            <div
+                                style="display: inline-block; max-width: 60%; padding: 10px; border-radius: 10px; {{ $message->sender_id == $chat->client_id ? 'background-color: #d1e7dd;' : 'background-color: #f8d7da;' }}">
+                                <p style="margin: 0;"><strong>{{ $message->sender->name ?? 'Unknown' }}:</strong></p>
+                                <p style="margin: 0;">{{ $message->message }}</p>
+                                <p style="font-size: 0.8em; color: #777; margin: 5px 0 0;">
+                                    {{ $message->created_at->format('d M Y, H:i') }}
+                                </p>
+                            </div>
+                        </div>
+                    </li>
+                @endforeach
+            </ul>
+        @endif
+    </div>
 
     <hr>
 
@@ -48,23 +55,61 @@
 
     <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
     <script>
-        // Initialize Pusher
-        var pusher = new Pusher('0c48b8eef40cc5d2451b', {
+        const pusher = new Pusher('0c48b8eef40cc5d2451b', {
             cluster: 'eu'
         });
 
-        var channel = pusher.subscribe('chat');
-        channel.bind('App\\Events\\SendMessageEvent', function(data) {
-            console.log(data)
+        const channel = pusher.subscribe('chat.5');
+        channel.bind('App\\Events\\SendMessageEvent', function (data) {
             var message = data.message;
             var messageList = document.getElementById('messages-list');
             var messageItem = document.createElement('li');
-            let formatedTime = message.created_at;
-            //format('d M Y, H:i')
+            messageItem.classList.add('message-item');
+            messageItem.style.display = "flex";
+            messageItem.style.marginBottom = "10px";
 
+            // Определяем выравнивание и цвет фона
+            var alignment = message.sender_id == {{ $chat->client->id }} ? 'left' : 'right';
+            var bgColor = alignment === 'left' ? '#d1e7dd' : '#f8d7da';
 
-            messageItem.innerHTML = `<p><strong>{{$chat->client->name }}:</strong> ${message.message}</p><p style="font-size: 0.8em; color: #777;">Sent at: ${}</p>`;
+            // Форматирование даты
+            var createdAt = new Date(message.created_at);
+            var formattedDate = createdAt.toLocaleString('en-US', {
+                day: '2-digit',
+                month: 'short',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false
+            });
+
+            // Добавление сообщения в DOM
+            messageItem.innerHTML = `
+        <div style="flex: 1; text-align: ${alignment};">
+            <div style="display: inline-block; max-width: 60%; padding: 10px; border-radius: 10px; background-color: ${bgColor};">
+                <p style="margin: 0;"><strong>${message.sender_id == {{ $chat->client->id }} ? '{{ $chat->client->name }}' : 'Manager'}:</strong></p>
+                <p style="margin: 0;">${message.message}</p>
+                <p style="font-size: 0.8em; color: #777; margin: 5px 0 0;">
+                    ${formattedDate}
+                </p>
+            </div>
+        </div>
+    `;
+
+            // Добавляем сообщение в список
             messageList.appendChild(messageItem);
+
+            // Прокручиваем чат вниз
+            scrollToBottom();
+        });
+
+        function scrollToBottom() {
+            var chatContainer = document.getElementById('chat-container');
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            scrollToBottom();
         });
     </script>
 @endsection

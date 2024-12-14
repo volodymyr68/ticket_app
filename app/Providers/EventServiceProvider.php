@@ -2,15 +2,16 @@
 
 namespace App\Providers;
 
+use App\Events\DownloadAdminPdf;
 use App\Events\SendMessageEvent;
 use App\Events\SendTicketEvent;
+use App\Listeners\DownloadAdminPdfEventListener;
+use App\Listeners\SendEventNotification;
 use App\Listeners\SendMessageEventListener;
 use App\Listeners\SendTicketEventListener;
-use App\Listeners\SendEventNotification;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Event;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -28,6 +29,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         SendMessageEvent::class => [
             SendMessageEventListener::class,
+        ],
+        DownloadAdminPdfEventListener::class => [
+            DownloadAdminPdf::class,
         ],
     ];
 

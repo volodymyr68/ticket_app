@@ -1,80 +1,8 @@
 @extends('layouts.main')
-<style>
-    .user-detail-card {
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        border-radius: 8px;
-        margin-top: 20px;
-    }
 
-    .card-header {
-        background-color: #f7f7f7;
-        padding: 15px;
-        border-bottom: 1px solid #ddd;
-    }
-
-    .user-name {
-        font-size: 1.8rem;
-        font-weight: bold;
-        color: #333;
-    }
-
-    .card-body {
-        padding: 20px;
-    }
-
-    .card-body .row {
-        margin-bottom: 15px;
-    }
-
-    .card-body strong {
-        color: #333;
-    }
-
-    .user-image {
-        max-width: 150px;
-        border-radius: 8px;
-    }
-
-    .btn {
-        font-size: 1rem;
-        padding: 10px 20px;
-        border-radius: 4px;
-        transition: background-color 0.2s ease-in-out, transform 0.1s;
-        cursor: pointer;
-    }
-
-    .btn-warning {
-        background-color: #ffc107;
-        color: #fff;
-    }
-
-    .btn-warning:hover {
-        background-color: #e0a800;
-        transform: scale(1.05);
-    }
-
-    .btn-danger {
-        background-color: #dc3545;
-        color: #fff;
-    }
-
-    .btn-danger:hover {
-        background-color: #c82333;
-        transform: scale(1.05);
-    }
-
-    .btn-secondary {
-        background-color: #6c757d;
-        color: #fff;
-    }
-
-    .btn-secondary:hover {
-        background-color: #5a6268;
-        transform: scale(1.05);
-    }
-</style>
 
 @section('content')
+    @vite('resources/css/users/show.css')
     <div class="container mt-5">
         <h2>User Details</h2>
 
@@ -115,7 +43,9 @@
                     <form action="{{ route('user.destroy', $user->id) }}" method="POST" style="display:inline-block;">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this user?')">Delete</button>
+                        <button type="submit" class="btn btn-danger"
+                                onclick="return confirm('Are you sure you want to delete this user?')">Delete
+                        </button>
                     </form>
                     <a href="{{ route('user.index') }}" class="btn btn-secondary">Back to List</a>
                 </div>

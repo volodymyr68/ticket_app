@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Events\DownloadAdminPdf;
 use App\Models\Vehicle;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Bus\Queueable;
@@ -16,13 +17,13 @@ class GenerateVehiclePdf implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $vehicles;
     /**
      * Create a new job instance.
      */
-    public function __construct($vehicles)
+    public function __construct(
+        protected Vehicle $vehicles
+    )
     {
-        $this->vehicles = $vehicles;
     }
 
     /**
@@ -30,32 +31,12 @@ class GenerateVehiclePdf implements ShouldQueue
      */
     public function handle(): void
     {
-        $filename = 'vehicles_reports_' . now()->format('Y-m-d_H-i-s') . '.pdf';
+        $pdf = Pdf::loadView('pdfs.vehicles', ['vehicles' => $this->vehicles]);
+        $filename = 'vehicles_reports' . '.pdf';
         $disk = 'public';
-        $filePath = Storage::disk($disk)->path($filename);
-
-        // Initialize PDF
-        $pdf = Pdf::loadView('pdfs.vehicles', ['vehicles' => []]);
-
-        // Paginate vehicles
-        $this->vehicles->chunk(20, function ($vehiclesChunk, $pageIndex) use ($pdf) {
-            $totalPages = ceil($this->vehicles->count() / 20);  // Total pages calculation
-            $html = view('pdfs.vehicles', [
-                'vehicles' => $vehiclesChunk,
-                'page' => $pageIndex + 1,  // Current page index, starts from 1
-                'totalPages' => $totalPages, // Total pages
-            ])->render();
-
-            // Add this page's HTML content to the PDF
-            $pdf->addPage($html);
-        });
-
-        // Save PDF to storage
-        $pdf->save($filePath);
-
-        // Generate the URL
+        $pdf->save($filename, $disk);
         $fileUrl = Storage::url($filename);
-
-        Log::info("PDF Generated: $fileUrl");
+        Log::info("PDF Generated:" . $fileUrl);
+        broadcast(new DownloadAdminPdf($fileUrl));
     }
 }

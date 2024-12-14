@@ -22,6 +22,7 @@ class CityController extends Controller
      */
     public function index(Request $request)
     {
+        $this->authorizeAction('viewAny');
         $filter = $request->input('filter', '');
         $cities = $this->cityService->getFilteredCities($filter);
         return view('cities.index', compact('cities'));
@@ -32,9 +33,7 @@ class CityController extends Controller
      */
     public function store(CityRequest $request)
     {
-        if (!$this->authorize('create', City::class)) {
-            abort(403);
-        }
+        $this->authorizeAction('create');
         $data = $request->except('_token');
         $city = $this->cityService->create($data);
         return redirect()->route('cities.show', [$city]);
@@ -45,9 +44,7 @@ class CityController extends Controller
      */
     public function create()
     {
-        if (!$this->authorize('create', City::class)) {
-            abort(403);
-        }
+        $this->authorizeAction('create');
         return view('cities.create');
     }
 
@@ -56,9 +53,7 @@ class CityController extends Controller
      */
     public function show(City $city)
     {
-        if (!$this->authorize('view', $city)) {
-            abort(403);
-        }
+        $this->authorizeAction('view');
         return view('cities.show', ['city' => $city]);
     }
 
@@ -67,9 +62,7 @@ class CityController extends Controller
      */
     public function edit(City $city)
     {
-        if (!$this->authorize('update', $city)) {
-            abort(403);
-        }
+        $this->authorizeAction('update');
         return view('cities.edit', ['city' => $city]);
     }
 
@@ -78,9 +71,7 @@ class CityController extends Controller
      */
     public function update(CityRequest $request, City $city)
     {
-        if (!$this->authorize('update', $city)) {
-            abort(403);
-        }
+        $this->authorizeAction('update');
         $updatedCity = $this->cityService->update($city, $request->all());
         return redirect()->route('cities.show', $updatedCity)->with('success', 'City updated successfully!');
     }

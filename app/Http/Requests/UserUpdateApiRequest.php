@@ -29,6 +29,7 @@ class UserUpdateApiRequest extends FormRequest
             'image' => ['nullable', 'image'],
         ];
     }
+
     public function messages(): array
     {
         return [

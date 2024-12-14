@@ -27,7 +27,6 @@ class MessageApiController extends Controller
     {
 
         $data = ['chat_id' => (int)$chat, 'sender_id' => auth()->id(), 'message' => $request->message];
-//        return $data;
         $message = $this->messageService->create($data);
 
         broadcast(new SendMessageEvent($message));

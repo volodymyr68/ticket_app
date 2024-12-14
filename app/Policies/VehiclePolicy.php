@@ -5,7 +5,7 @@ namespace App\Policies;
 use App\Models\User;
 use App\Models\Vehicle;
 
-class VehicleApiUpdatePolice
+class VehiclePolicy
 {
     /**
      * Determine whether the user can view any models.
@@ -44,6 +44,6 @@ class VehicleApiUpdatePolice
      */
     public function delete(User $user, User $model): bool
     {
-        return $user->hasPermissionTo('vehicles.delete');
+        return $user->hasPermissionTo('vehicles.destroy');
     }
 }

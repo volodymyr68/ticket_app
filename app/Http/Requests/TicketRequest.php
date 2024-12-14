@@ -22,11 +22,12 @@ class TicketRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'vehicle_id' => ['required','exists:vehicles,id'],
-            'seats_taken' => ['required','min:1','max:4'],
-            'price' => ['required','min:1','max:1000']
+            'vehicle_id' => ['required', 'exists:vehicles,id'],
+            'seats_taken' => ['required', 'min:1', 'max:4'],
+            'price' => ['required', 'min:1', 'max:1000']
         ];
     }
+
     public function messages(): array
     {
         return [
@@ -34,9 +35,9 @@ class TicketRequest extends FormRequest
             'user_id.exists' => 'User ID does not exist',
             'vehicle_id.required' => 'Vehicle ID is required',
             'vehicle_id.exists' => 'Vehicle ID does not exist',
-           'seats_taken.required' => 'Seats taken is required',
-           'seats_taken.min' => 'Seats taken must be at least 1',
-           'seats_taken.max' => 'Seats taken must not exceed 4',
+            'seats_taken.required' => 'Seats taken is required',
+            'seats_taken.min' => 'Seats taken must be at least 1',
+            'seats_taken.max' => 'Seats taken must not exceed 4',
             'price.required' => 'Price is required',
             'price.min' => 'Price must be at least 1',
             'price.max' => 'Price must not exceed 1000',

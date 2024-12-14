@@ -25,6 +25,7 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
+        $this->authorizeAction('viewAny');
         $filters = $request->only(['role', 'sex', 'search']);
         $users = $this->userService->getSortedUsers($filters, 10);
         $roles = $this->roleService->getAll();
@@ -37,9 +38,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        if (!$this->authorize('view', $user)) {
-            abort(403);
-        }
+        $this->authorizeAction('view');
         return view('users.show', ['user' => $user]);
     }
 
@@ -48,9 +47,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        if (!$this->authorize('update', $user)) {
-            abort(403);
-        }
+        $this->authorizeAction('update');
         $roles = Role::all();
         return view('users.edit', ['user' => $user, 'roles' => $roles]);
     }
@@ -60,9 +57,7 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        if (!$this->authorize('update', auth()->user())) {
-            abort(403);
-        }
+        $this->authorizeAction('update');
         $data = $request->except('image');
 
         if ($request->hasFile('image')) {
@@ -78,9 +73,7 @@ class UserController extends Controller
      */
     public function store(UserRequest $request)
     {
-        if (!$this->authorize('create', User::class)) {
-            abort(403);
-        }
+        $this->authorizeAction('create');
         $user = $this->userService->create($request->all());
         return redirect()->route('user.show', [$user]);
     }
@@ -90,9 +83,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        if (!$this->authorize('create', User::class)) {
-            abort(403);
-        }
+        $this->authorizeAction('create');
         $roles = $this->roleService->getAll();
         return view('users.create', ['roles' => $roles]);
     }
