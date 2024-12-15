@@ -2,7 +2,6 @@
 
 namespace App\Policies;
 
-use App\Models\City;
 use App\Models\User;
 
 class CityPolicy

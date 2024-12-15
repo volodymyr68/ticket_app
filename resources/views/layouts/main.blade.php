@@ -14,8 +14,6 @@
         <a href="/">Home</a>
         @guest()
             <a href="{{ route('login') }}">Login</a>
-
-            <a href="{{ route('google.redirect') }}" class="btn btn-primary"> Login with Google </a>
         @endguest
         @auth()
             <a href="{{ route('logout') }}"
@@ -26,6 +24,7 @@
             <a href="{{route('user.index')}}">Users</a>
             <a href="{{route('ticket.index')}}">Tickets</a>
             <a href="{{route('chats.index')}}">Chats</a>
+            <a href="{{route('bonuses.index')}}">Bonuses</a>
             <div style="color: white">Hello {{Auth::user()->name}}</div>
             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                 @csrf

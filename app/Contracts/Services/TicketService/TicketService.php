@@ -2,6 +2,7 @@
 
 namespace App\Contracts\Services\TicketService;
 
+use App\Contracts\Repositories\BonusRepository\BonusRepository;
 use App\Contracts\Repositories\TicketRepository\TicketRepository;
 use App\Contracts\Repositories\VehicleRepository\VehicleRepository;
 use App\Contracts\Services\BaseService;
@@ -11,14 +12,12 @@ use Illuminate\Support\Facades\Mail;
 
 class TicketService extends BaseService
 {
-    /**
-     * TicketService constructor.
-     *
-     * @param TicketRepository $repository
-     */
+
     public function __construct(
         protected TicketRepository  $ticketRepository,
-        protected VehicleRepository $vehicleRepository)
+        protected VehicleRepository $vehicleRepository,
+        protected BonusRepository   $bonusRepository
+    )
     {
         parent::__construct($ticketRepository);
     }
@@ -43,7 +42,15 @@ class TicketService extends BaseService
         if ($vehicle->seats_quantity - $data['seats_taken'] < 0) {
             throw new Exception('Недостаточно мест для бронирования.');
         }
+        $bonus = $this->bonusRepository->getUserBonus();
         $ticket = $this->repository->create($data);
+
+        if ($data['bonus'] == true) {
+            $this->bonusRepository->update($bonus, ['amount' => 10.00]);
+        } else {
+            $this->bonusRepository->update($bonus, ['amount' => $bonus->amount + 10]);
+        }
+
         Mail::to(auth()->user())->send(new TicketBought($ticket, auth()->user()));
         return $ticket;
     }

@@ -17,9 +17,10 @@ class TicketApiController extends Controller
     /**
      * @var TicketService
      */
-    protected $ticketService;
 
-    public function __construct(TicketService $ticketService, Request $request)
+    public function __construct(
+        protected TicketService $ticketService,
+        Request                 $request)
     {
         if (!$request->expectsJson()) {
             abort(406);
@@ -45,7 +46,9 @@ class TicketApiController extends Controller
     public function store(TicketRequest $request)
     {
         $this->authorizeAction('create');
-        $ticket = $this->ticketService->createTicketApi($request->all());
+        $data = $request->all();
+        $data['bonus'] = $data['bonus'] ?? 0;
+        $ticket = $this->ticketService->createTicketApi($data);
         GenerateTicketPdf::dispatch($ticket);
         return response()->json(['message' => 'Ticket created successfully']);
     }

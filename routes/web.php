@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BonusController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\DashboardController;
@@ -40,3 +41,5 @@ Route::get('/google/redirect', [App\Http\Controllers\GoogleLoginController::clas
 Route::get('/google/callback', [App\Http\Controllers\GoogleLoginController::class, 'handleGoogleCallback'])->name('google.callback');
 
 Route::resource('roles', RoleController::class)->middleware('auth');
+
+Route::resource('bonuses', BonusController::class)->middleware('auth:sanctum');

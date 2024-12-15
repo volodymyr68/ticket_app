@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
 //            CitySeeder::class,
 //            VehicleSeeder::class,
 //            RoleSeeder::class
-                PermissionSeeder::class
+            PermissionSeeder::class
         ]);
     }
 }

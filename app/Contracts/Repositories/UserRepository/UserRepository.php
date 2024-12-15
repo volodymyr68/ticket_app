@@ -36,4 +36,9 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
             })
             ->paginate($perPage);
     }
+
+    public function getUsersWithoutBonus()
+    {
+        return User::whereDoesntHave('bonus')->get();
+    }
 }

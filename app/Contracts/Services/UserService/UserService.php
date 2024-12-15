@@ -23,4 +23,9 @@ class UserService extends BaseService
     {
         return $this->userRepository->getSortedUsers($filters, $perPage);
     }
+
+    public function getUsersWithoutBonus()
+    {
+        return $this->userRepository->getUsersWithoutBonus();
+    }
 }

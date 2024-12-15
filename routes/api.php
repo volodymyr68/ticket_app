@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\api\AuthController;
+use App\Http\Controllers\api\BonusApiController;
 use App\Http\Controllers\api\ChatApiController;
 use App\Http\Controllers\api\CityApiController;
 use App\Http\Controllers\api\MessageApiController;
@@ -39,6 +40,8 @@ Route::resource('messages', MessageApiController::class)->middleware('auth:sanct
 Route::post('chats/{chat}/messages', [MessageApiController::class, 'store'])->name('messages.store')->middleware('auth:sanctum');
 
 Route::resource('tickets', TicketApiController::class)->middleware('auth:sanctum');
+
+Route::resource('bonuses', BonusApiController::class)->middleware('auth:sanctum');
 
 Route::post('/tickets/{ticket}/download', [TicketApiController::class, 'downloadTicket']);
 

@@ -17,12 +17,6 @@ class RoleController extends Controller
         return view('roles.index', compact('roles', 'permissions'));
     }
 
-    public function create()
-    {
-        $permissions = Permission::all();
-        return view('roles.create', compact('permissions'));
-    }
-
     public function store(Request $request)
     {
         $request->validate([
@@ -36,6 +30,12 @@ class RoleController extends Controller
         $role->permissions()->sync($request->permissions);
 
         return redirect()->route('roles.index')->with('success', 'Роль створена успішно!');
+    }
+
+    public function create()
+    {
+        $permissions = Permission::all();
+        return view('roles.create', compact('permissions'));
     }
 
     public function edit(Role $role)

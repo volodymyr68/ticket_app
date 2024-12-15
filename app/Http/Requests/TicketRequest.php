@@ -24,7 +24,8 @@ class TicketRequest extends FormRequest
         return [
             'vehicle_id' => ['required', 'exists:vehicles,id'],
             'seats_taken' => ['required', 'min:1', 'max:4'],
-            'price' => ['required', 'min:1', 'max:1000']
+            'price' => ['required', 'min:1', 'max:1000'],
+            'bonus' => ['nullable', 'bool'],
         ];
     }
 

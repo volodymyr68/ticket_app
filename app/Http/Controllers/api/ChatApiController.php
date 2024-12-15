@@ -27,7 +27,7 @@ class ChatApiController extends Controller
     public function index()
     {
         $chat = $this->chatService->getClientChat();
-        return response()->json([$chat,"client_id" => auth()->user()->id]);
+        return response()->json([$chat, "client_id" => auth()->user()->id]);
     }
 
     /**
