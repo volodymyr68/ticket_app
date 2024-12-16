@@ -7,6 +7,7 @@ use App\Contracts\Repositories\TicketRepository\TicketRepository;
 use App\Contracts\Repositories\VehicleRepository\VehicleRepository;
 use App\Contracts\Services\BaseService;
 use App\Mail\TicketBought;
+use App\Models\Ticket;
 use Exception;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
@@ -44,7 +45,7 @@ class TicketService extends BaseService
      *
      * @throws Exception If an error occurs while retrieving the tickets.
      */
-    public function getUserTickets($userId)
+    public function getUserTickets(int $userId): Collection
     {
         return $this->ticketRepository->getTicketsByUser($userId);
     }
@@ -64,7 +65,7 @@ class TicketService extends BaseService
      *
      * @throws Exception If an error occurs while retrieving the tickets.
      */
-    public function getFilteredTickets($filters)
+    public function getFilteredTickets(array $filters): LengthAwarePaginator
     {
         return $this->ticketRepository->getSortedTickets($filters);
     }
@@ -86,7 +87,7 @@ class TicketService extends BaseService
      *
      * @throws Exception If there are not enough seats available for booking.
      */
-    public function createTicketApi($data)
+    public function createTicketApi(array $data): Ticket
     {
         $data['user_id'] = auth()->user()->id;
         $vehicle = $this->vehicleRepository->find($data['vehicle_id']);
@@ -124,7 +125,7 @@ class TicketService extends BaseService
      *
      * @throws Exception If there are not enough seats available for booking.
      */
-    public function createTicket($data)
+    public function createTicket(array $data): Ticket
     {
         $data['user_id'] = auth()->user()->id;
         $vehicle = $this->vehicleRepository->find($data['vehicle_id']);

@@ -4,6 +4,7 @@ namespace App\Contracts\Services\ChatService;
 
 use App\Contracts\Repositories\ChatRepository\ChatRepository;
 use App\Contracts\Services\BaseService;
+use App\Models\Chat;
 
 class ChatService extends BaseService
 {
@@ -14,7 +15,7 @@ class ChatService extends BaseService
         parent::__construct($chatRepository);
     }
 
-    public function getClientChat()
+    public function getClientChat(): Chat
     {
         return $this->chatRepository->getClientChat();
     }

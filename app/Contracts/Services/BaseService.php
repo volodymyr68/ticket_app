@@ -10,18 +10,12 @@ use Illuminate\Database\Eloquent\Model;
 abstract class BaseService
 {
     /**
-     * @var BaseRepository
-     */
-    protected $repository;
-
-    /**
      * BaseService constructor.
      *
      * @param BaseRepository $repository
      */
-    public function __construct($repository)
+    public function __construct(protected BaseRepository $repository)
     {
-        $this->repository = $repository;
     }
 
     /**
@@ -29,7 +23,7 @@ abstract class BaseService
      *
      * @return Collection
      */
-    public function getAll()
+    public function getAll(): Collection
     {
         return $this->repository->all();
     }
@@ -40,7 +34,7 @@ abstract class BaseService
      * @param int $perPage
      * @return LengthAwarePaginator
      */
-    public function getAllPaginated(int $perPage = 15)
+    public function getAllPaginated(int $perPage = 15): LengthAwarePaginator
     {
         return $this->repository->getAllPaginated($perPage);
     }
@@ -51,7 +45,7 @@ abstract class BaseService
      * @param int $id
      * @return Model|null
      */
-    public function getById(int $id)
+    public function getById(int $id): ?Model
     {
         return $this->repository->find($id);
     }
@@ -62,7 +56,7 @@ abstract class BaseService
      * @param array $data
      * @return Model
      */
-    public function create(array $data)
+    public function create(array $data): Model
     {
         return $this->repository->create($data);
     }
@@ -70,11 +64,11 @@ abstract class BaseService
     /**
      * Update a record by ID.
      *
-     * @param int $id
+     * @param $idOrModel
      * @param array $data
-     * @return bool
+     * @return Model
      */
-    public function update($idOrModel, array $data)
+    public function update($idOrModel, array $data): Model
     {
         return $this->repository->update($idOrModel, $data);
     }
@@ -85,7 +79,7 @@ abstract class BaseService
      * @param int $id
      * @return bool
      */
-    public function delete(int $id)
+    public function delete(int $id): bool
     {
         return $this->repository->delete($id);
     }

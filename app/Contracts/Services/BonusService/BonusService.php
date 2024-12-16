@@ -20,8 +20,8 @@ class BonusService extends BaseService
 
         if (!$userBonus) {
             $data = [
-                "amount" => 0,
-                "user_id" => auth()->user()->id
+                'amount' => 0,
+                'user_id' => auth()->user()->id
             ];
             return $this->bonusRepository->create($data);
         }

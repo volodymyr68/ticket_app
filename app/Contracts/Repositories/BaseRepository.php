@@ -2,31 +2,27 @@
 
 namespace App\Contracts\Repositories;
 
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 abstract class BaseRepository
 {
     /**
-     * @var Model
-     */
-    protected $model;
-
-    /**
      * BaseRepository constructor.
      *
      * @param Model $model
      */
-    public function __construct(Model $model)
+    public function __construct(protected Model $model)
     {
-        $this->model = $model;
     }
 
     /**
      * Get all records.
      *
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @return Collection
      */
-    public function all()
+    public function all(): Collection
     {
         return $this->model->all();
     }
@@ -35,9 +31,9 @@ abstract class BaseRepository
      * Get all records paginated.
      *
      * @param int $perPage
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     * @return LengthAwarePaginator
      */
-    public function getAllPaginated(int $perPage = 8)
+    public function getAllPaginated(int $perPage = 8): LengthAwarePaginator
     {
         return $this->model->paginate($perPage);
     }
@@ -48,7 +44,7 @@ abstract class BaseRepository
      * @param array $data
      * @return Model
      */
-    public function create(array $data)
+    public function create(array $data): Model
     {
         return $this->model->create($data);
     }
@@ -56,11 +52,11 @@ abstract class BaseRepository
     /**
      * Update a record by ID.
      *
-     * @param Model $model
+     * @param $idOrModel
      * @param array $data
-     * @return Model
+     * @return Model|null
      */
-    public function update($idOrModel, array $data)
+    public function update($idOrModel, array $data): ?Model
     {
         $record = $idOrModel instanceof Model ? $idOrModel : $this->find($idOrModel);
         $record->update($data);
@@ -73,7 +69,7 @@ abstract class BaseRepository
      * @param int $id
      * @return Model|null
      */
-    public function find(int $id)
+    public function find(int $id): ?Model
     {
         return $this->model->find($id);
     }
@@ -84,7 +80,7 @@ abstract class BaseRepository
      * @param int $id
      * @return bool|null
      */
-    public function delete(int $id)
+    public function delete(int $id): ?bool
     {
         $record = $this->find($id);
 
