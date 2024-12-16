@@ -2,7 +2,7 @@
 
 namespace App\Contracts\Services\UserService;
 
-use App\Contracts\Repositories\UserRepository\UserRepository;
+use App\Contracts\Repositories\UserRepositoryInterface;
 use App\Contracts\Services\BaseService;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
@@ -10,7 +10,7 @@ use Illuminate\Support\Collection;
 class UserService extends BaseService
 {
     public function __construct(
-        protected UserRepository $userRepository
+        protected UserRepositoryInterface $userRepository
     )
     {
         parent::__construct($userRepository);

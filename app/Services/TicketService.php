@@ -2,12 +2,13 @@
 
 namespace App\Contracts\Services\TicketService;
 
-use App\Contracts\Repositories\BonusRepository\BonusRepository;
+use App\Contracts\Repositories\BonusRepositoryInterface;
 use App\Contracts\Repositories\TicketRepository\TicketRepository;
 use App\Contracts\Repositories\VehicleRepository\VehicleRepository;
 use App\Contracts\Services\BaseService;
 use App\Mail\TicketBought;
 use App\Models\Ticket;
+use App\Repositories\BonusRepository;
 use Exception;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
@@ -28,7 +29,7 @@ class TicketService extends BaseService
     public function __construct(
         protected TicketRepository  $ticketRepository,
         protected VehicleRepository $vehicleRepository,
-        protected BonusRepository   $bonusRepository
+        protected BonusRepositoryInterface   $bonusRepository
     )
     {
         parent::__construct($ticketRepository);
@@ -91,9 +92,14 @@ class TicketService extends BaseService
     {
         $data['user_id'] = auth()->user()->id;
         $vehicle = $this->vehicleRepository->find($data['vehicle_id']);
+        if(!$vehicle){
+            throw new Exception('Vehicle with ID ' . $data['vehicle_id'] . ' not found ');
+        }
+
         if ($vehicle->seats_quantity - $data['seats_taken'] < 0) {
             throw new Exception('Недостаточно мест для бронирования.');
         }
+
         $vehicle->seats_quantity -= $data['seats_taken'];
         $this->vehicleRepository->update($vehicle->id, ['seats_quantity' => $vehicle->seats_quantity]);
 

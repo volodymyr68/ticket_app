@@ -2,14 +2,15 @@
 
 namespace App\Contracts\Services\ChatService;
 
-use App\Contracts\Repositories\ChatRepository\ChatRepository;
+use App\Contracts\Repositories\ChatRepositoryInterface;
 use App\Contracts\Services\BaseService;
 use App\Models\Chat;
+use App\Repositories\ChatRepository;
 
 class ChatService extends BaseService
 {
     public function __construct(
-        protected ChatRepository $chatRepository
+        protected ChatRepositoryInterface $chatRepository
     )
     {
         parent::__construct($chatRepository);
