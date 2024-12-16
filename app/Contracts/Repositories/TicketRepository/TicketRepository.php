@@ -4,6 +4,8 @@ namespace App\Contracts\Repositories\TicketRepository;
 
 use App\Contracts\Repositories\BaseRepository;
 use App\Models\Ticket;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 
 class TicketRepository extends BaseRepository implements TicketRepositoryInterface
 {
@@ -12,14 +14,14 @@ class TicketRepository extends BaseRepository implements TicketRepositoryInterfa
         parent::__construct($model);
     }
 
-    public function getTicketsByUser($userId)
+    public function getTicketsByUser(int $userId): Collection
     {
         return Ticket::where('user_id', $userId)
-            ->orderBy('created_at', 'desc')
+            ->orderByDesc('created_at')
             ->get();
     }
 
-    public function getSortedTickets($filters)
+    public function getSortedTickets(?array $filters): LengthAwarePaginator
     {
         $query = Ticket::query();
 

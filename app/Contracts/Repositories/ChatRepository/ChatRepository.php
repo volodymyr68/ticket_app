@@ -12,7 +12,7 @@ class ChatRepository extends BaseRepository implements ChatRepositoryInterface
         parent::__construct($model);
     }
 
-    public function getClientChat()
+    public function getClientChat(): Chat
     {
         $chat = Chat::where('client_id', auth()->user()->id)->first();
         if (!$chat || $chat->count() === 0) {

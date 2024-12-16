@@ -8,7 +8,7 @@
 </head>
 <body>
 <div class="container">
-    <h1 class="mb-4 text-center">Ticket Details</h1>
+    <h1>Ticket Details</h1>
 
     <div class="card">
         <div class="card-header">
@@ -16,7 +16,7 @@
         </div>
         <div class="card-body">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-half">
                     <strong>Vehicle:</strong>
                     <ul>
                         <li>Number : {{ $ticket->vehicle->id }}</li>
@@ -28,25 +28,25 @@
                         <li>Destination City : {{ $ticket->vehicle->destinationCity->name }}</li>
                     </ul>
                 </div>
-                <div class="col-md-6">
+                <div class="col-half">
                     <strong>Seats Taken:</strong>
                     <p>{{ $ticket->seats_taken }}</p>
                 </div>
             </div>
 
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-half">
                     <strong>Price:</strong>
                     <p>${{ number_format($ticket->price, 2) }}</p>
                 </div>
-                <div class="col-md-6">
+                <div class="col-half">
                     <strong>Created At:</strong>
                     <p>{{ $ticket->created_at->format('Y-m-d H:i') }}</p>
                 </div>
             </div>
 
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-half">
                     <strong>Updated At:</strong>
                     <p>{{ $ticket->updated_at->format('Y-m-d H:i') }}</p>
                 </div>

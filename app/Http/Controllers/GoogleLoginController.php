@@ -3,18 +3,28 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Socialite\Facades\Socialite;
 
 class GoogleLoginController extends Controller
 {
+    /**
+     * Redirect the user to the Google authentication page.
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
     public function redirectToGoogle()
     {
         return Socialite::driver('google')->redirect();
     }
 
-
+    /**
+     * Obtain the user information from Google and handle the login process.
+     *
+     * @return RedirectResponse
+     */
     public function handleGoogleCallback()
     {
         $googleUser = Socialite::driver('google')->user();

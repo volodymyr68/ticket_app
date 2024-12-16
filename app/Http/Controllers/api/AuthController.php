@@ -5,12 +5,23 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use Illuminate\Auth\AuthenticationException;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
+    /**
+     * Registers a new user.
+     *
+     * @param Request $request The request object containing the user's details.
+     * @return JsonResponse The response containing the user's token and details.
+     * @throws ValidationException If the request data fails validation.
+     */
     public function register(Request $request)
     {
         $validateUser = Validator::make($request->all(), [
@@ -36,6 +47,14 @@ class AuthController extends Controller
         ], 201);
     }
 
+    /**
+     * Authenticates a user and returns their token.
+     *
+     * @param Request $request The request object containing the user's email and password.
+     * @return JsonResponse The response containing the user's token and token type.
+     * @throws ValidationException If the request data fails validation.
+     * @throws AuthenticationException If the provided credentials are invalid.
+     */
     public function login(Request $request)
     {
         $validateUser = Validator::make($request->all(), [
@@ -62,6 +81,18 @@ class AuthController extends Controller
         ]);
     }
 
+    /**
+     * Redirects the user to the main application after successful Google login.
+     *
+     * This function handles the redirection logic after a user has successfully authenticated
+     * using Google. It checks if the 'google' query parameter is present and equals to 1.
+     * If the conditions are met, it retrieves the user from the database using the 'user' query parameter,
+     * generates an API token for the user, creates a cookie with the token, and redirects the user
+     * to the main application with the cookie and user data.
+     *
+     * @param Request $request The request object containing the query parameters.
+     * @return RedirectResponse The redirect response to the main application.
+     */
     public function loginRedirect(Request $request)
     {
         if ($request->query('google') !== null && $request->query('google') == 1) {

@@ -4,6 +4,7 @@ namespace App\Contracts\Repositories\VehicleRepository;
 
 use App\Contracts\Repositories\BaseRepository;
 use App\Models\Vehicle;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class VehicleRepository extends BaseRepository implements VehicleRepositoryInterface
 {
@@ -12,7 +13,7 @@ class VehicleRepository extends BaseRepository implements VehicleRepositoryInter
         parent::__construct($model);
     }
 
-    public function getVehiclesByFilters($filters)
+    public function getVehiclesByFilters(?array $filters): LengthAwarePaginator
     {
         $query = Vehicle::query();
 
@@ -47,7 +48,7 @@ class VehicleRepository extends BaseRepository implements VehicleRepositoryInter
         return $query->paginate(9);
     }
 
-    public function getSortedVehicles(?array $filters, int $perPage = 10)
+    public function getSortedVehicles(?array $filters, int $perPage = 10): LengthAwarePaginator
     {
         return Vehicle::sortable()
             ->when(!empty($filters['quality']), function ($query) use ($filters) {

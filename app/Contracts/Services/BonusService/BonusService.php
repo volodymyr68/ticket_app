@@ -23,8 +23,7 @@ class BonusService extends BaseService
                 "amount" => 0,
                 "user_id" => auth()->user()->id
             ];
-            $userBonus = $this->bonusRepository->create($data);
-            return $userBonus;
+            return $this->bonusRepository->create($data);
         }
 
         return $userBonus;

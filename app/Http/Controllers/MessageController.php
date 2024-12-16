@@ -6,6 +6,8 @@ use App\Contracts\Services\MessageService\MessageService;
 use App\Events\SendMessageEvent;
 use App\Models\Chat;
 use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Validation\ValidationException;
 
 class MessageController extends Controller
 {
@@ -18,6 +20,16 @@ class MessageController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     *
+     * @param Request $request
+     * @param Chat $chat
+     * @return RedirectResponse
+     *
+     * @throws ValidationException
+     *
+     * @see MessageService::create
+     * @see SendMessageEvent
+     * @see \Illuminate\Support\Facades\Redirect::route()
      */
     public function store(Request $request, Chat $chat)
     {

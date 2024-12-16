@@ -2,11 +2,12 @@
 
 namespace App\Providers;
 
-// use Illuminate\Support\Facades\Gate;
+use App\Models\Bonus;
 use App\Models\City;
 use App\Models\Ticket;
 use App\Models\User;
 use App\Models\Vehicle;
+use App\Policies\BonusPolicy;
 use App\Policies\CityPolicy;
 use App\Policies\TicketPolicy;
 use App\Policies\VehiclePolicy;
@@ -24,6 +25,7 @@ class AuthServiceProvider extends ServiceProvider
         User::class => CityPolicy::class,
         Ticket::class => TicketPolicy::class,
         Vehicle::class => VehiclePolicy::class,
+        Bonus::class => BonusPolicy::class,
     ];
 
     /**

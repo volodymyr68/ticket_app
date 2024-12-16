@@ -9,11 +9,18 @@ use App\Jobs\GenerateVehiclePdf;
 use App\Models\City;
 use App\Models\Vehicle;
 use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class VehicleController extends Controller
 {
 
-
+    /**
+     * Constructor for VehicleController.
+     *
+     * @param VehicleService $vehicleService The service for managing vehicles.
+     * @param CityService $cityService The service for managing cities.
+     */
     public function __construct(
         protected VehicleService $vehicleService,
         protected CityService    $cityService
@@ -23,6 +30,10 @@ class VehicleController extends Controller
 
     /**
      * Display a listing of the resource.
+     *
+     * @param Request $request The incoming request.
+     *
+     * @return View The view for displaying the vehicles.
      */
     public function index(Request $request)
     {
@@ -37,6 +48,10 @@ class VehicleController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     *
+     * @param VehicleCreateRequest $request The incoming request.
+     *
+     * @return RedirectResponse Redirect to the vehicle's show page.
      */
     public function store(VehicleCreateRequest $request)
     {
@@ -47,6 +62,8 @@ class VehicleController extends Controller
 
     /**
      * Show the form for creating a new resource.
+     *
+     * @return View The view for creating a new vehicle.
      */
     public function create()
     {
@@ -57,6 +74,11 @@ class VehicleController extends Controller
 
     /**
      * Display the specified resource.
+     *
+     * @param Request $request The incoming request.
+     * @param Vehicle $vehicle The vehicle to be displayed.
+     *
+     * @return View The view for displaying the vehicle.
      */
     public function show(Request $request, Vehicle $vehicle)
     {
@@ -66,6 +88,10 @@ class VehicleController extends Controller
 
     /**
      * Show the form for editing the specified resource.
+     *
+     * @param Vehicle $vehicle The vehicle to be edited.
+     *
+     * @return View The view for editing the vehicle.
      */
     public function edit(Vehicle $vehicle)
     {
@@ -76,6 +102,11 @@ class VehicleController extends Controller
 
     /**
      * Update the specified resource in storage.
+     *
+     * @param VehicleCreateRequest $request The incoming request.
+     * @param Vehicle $vehicle The vehicle to be updated.
+     *
+     * @return RedirectResponse Redirect to the vehicle's show page.
      */
     public function update(VehicleCreateRequest $request, Vehicle $vehicle)
     {
@@ -86,6 +117,10 @@ class VehicleController extends Controller
 
     /**
      * Remove the specified resource from storage.
+     *
+     * @param Vehicle $vehicle The vehicle to be deleted.
+     *
+     * @return RedirectResponse Redirect to the vehicles index page.
      */
     public function destroy(Vehicle $vehicle)
     {
@@ -93,6 +128,11 @@ class VehicleController extends Controller
         return redirect()->route('vehicle.index');
     }
 
+    /**
+     * Export vehicles to a PDF file.
+     *
+     * @param Request $request The incoming request.
+     */
     public function exportVehicles(Request $request)
     {
         $vehicles = $this->vehicleService->getAllPaginated(10);

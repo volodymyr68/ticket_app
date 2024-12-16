@@ -4,6 +4,8 @@ namespace App\Contracts\Repositories\UserRepository;
 
 use App\Contracts\Repositories\BaseRepository;
 use App\Models\User;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 
 class UserRepository extends BaseRepository implements UserRepositoryInterface
 {
@@ -12,12 +14,12 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
         parent::__construct($model);
     }
 
-    public function getAllClients()
+    public function getAllClients(): Collection
     {
         return User::where('role_id', 1)->get();
     }
 
-    public function getSortedUsers(?array $filters, int $perPage = 10)
+    public function getSortedUsers(?array $filters, int $perPage = 10): LengthAwarePaginator
     {
         return User::sortable()
             ->when(!empty($filters['role']), function ($query) use ($filters) {
@@ -37,7 +39,7 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
             ->paginate($perPage);
     }
 
-    public function getUsersWithoutBonus()
+    public function getUsersWithoutBonus(): Collection
     {
         return User::whereDoesntHave('bonus')->get();
     }

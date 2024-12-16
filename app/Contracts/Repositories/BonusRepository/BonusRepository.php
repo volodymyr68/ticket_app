@@ -12,7 +12,7 @@ class BonusRepository extends BaseRepository
         parent::__construct($model);
     }
 
-    public function getUserBonus()
+    public function getUserBonus(): Bonus
     {
         return auth()->user()->bonus()->first();
     }

@@ -7,12 +7,19 @@ use App\Contracts\Services\UserService\UserService;
 use App\Http\Requests\UserRequest;
 use App\Models\Role;
 use App\Models\User;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class UserController extends Controller
 {
 
-
+    /**
+     * Constructor for UserController.
+     *
+     * @param UserService $userService The service for managing user data.
+     * @param RoleService $roleService The service for managing role data.
+     */
     public function __construct(
         protected UserService $userService,
         protected RoleService $roleService
@@ -22,6 +29,9 @@ class UserController extends Controller
 
     /**
      * Display a listing of the resource.
+     *
+     * @param Request $request The incoming request.
+     * @return View The view for displaying the list of users.
      */
     public function index(Request $request)
     {
@@ -35,6 +45,9 @@ class UserController extends Controller
 
     /**
      * Display the specified resource.
+     *
+     * @param User $user The user to be displayed.
+     * @return View The view for displaying the specified user.
      */
     public function show(User $user)
     {
@@ -44,6 +57,9 @@ class UserController extends Controller
 
     /**
      * Show the form for editing the specified resource.
+     *
+     * @param User $user The user to be edited.
+     * @return View The view for editing the specified user.
      */
     public function edit(User $user)
     {
@@ -54,6 +70,10 @@ class UserController extends Controller
 
     /**
      * Update the specified resource in storage.
+     *
+     * @param Request $request The incoming request.
+     * @param User $user The user to be updated.
+     * @return RedirectResponse Redirect to the user's show page.
      */
     public function update(Request $request, User $user)
     {
@@ -70,6 +90,9 @@ class UserController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     *
+     * @param UserRequest $request The incoming request.
+     * @return RedirectResponse Redirect to the newly created user's show page.
      */
     public function store(UserRequest $request)
     {
@@ -80,6 +103,8 @@ class UserController extends Controller
 
     /**
      * Show the form for creating a new resource.
+     *
+     * @return View The view for creating a new user.
      */
     public function create()
     {
@@ -90,6 +115,9 @@ class UserController extends Controller
 
     /**
      * Remove the specified resource from storage.
+     *
+     * @param User $user The user to be deleted.
+     * @return RedirectResponse Redirect to the user index page.
      */
     public function destroy(User $user)
     {

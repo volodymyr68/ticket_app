@@ -6,12 +6,11 @@ use App\Contracts\Services\CityService\CityService;
 use App\Http\Requests\CityRequest;
 use App\Models\City;
 use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class CityController extends Controller
 {
-    /**
-     * @var CityService
-     */
 
     public function __construct(protected CityService $cityService)
     {
@@ -19,6 +18,9 @@ class CityController extends Controller
 
     /**
      * Display a listing of the resource.
+     *
+     * @param Request $request
+     * @return View
      */
     public function index(Request $request)
     {
@@ -30,6 +32,9 @@ class CityController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     *
+     * @param CityRequest $request
+     * @return RedirectResponse
      */
     public function store(CityRequest $request)
     {
@@ -41,6 +46,8 @@ class CityController extends Controller
 
     /**
      * Show the form for creating a new resource.
+     *
+     * @return View
      */
     public function create()
     {
@@ -50,6 +57,9 @@ class CityController extends Controller
 
     /**
      * Display the specified resource.
+     *
+     * @param City $city
+     * @return View
      */
     public function show(City $city)
     {
@@ -59,6 +69,9 @@ class CityController extends Controller
 
     /**
      * Show the form for editing the specified resource.
+     *
+     * @param City $city
+     * @return View
      */
     public function edit(City $city)
     {
@@ -68,6 +81,10 @@ class CityController extends Controller
 
     /**
      * Update the specified resource in storage.
+     *
+     * @param CityRequest $request
+     * @param City $city
+     * @return RedirectResponse
      */
     public function update(CityRequest $request, City $city)
     {
@@ -78,6 +95,9 @@ class CityController extends Controller
 
     /**
      * Remove the specified resource from storage.
+     *
+     * @param City $city
+     * @return RedirectResponse
      */
     public function destroy(City $city)
     {

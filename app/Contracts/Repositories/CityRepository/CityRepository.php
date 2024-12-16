@@ -4,6 +4,7 @@ namespace App\Contracts\Repositories\CityRepository;
 
 use App\Contracts\Repositories\BaseRepository;
 use App\Models\City;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class CityRepository extends BaseRepository implements CityRepositoryInterface
 {
@@ -12,7 +13,7 @@ class CityRepository extends BaseRepository implements CityRepositoryInterface
         parent::__construct($model);
     }
 
-    public function getFilteredCities($filter)
+    public function getFilteredCities(?array $filter): LengthAwarePaginator
     {
         return City::sortable()
             ->where('name', 'like', '%' . $filter . '%')

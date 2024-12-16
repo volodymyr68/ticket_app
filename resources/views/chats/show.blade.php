@@ -61,20 +61,18 @@
 
         const channel = pusher.subscribe('chat.5');
         channel.bind('App\\Events\\SendMessageEvent', function (data) {
-            var message = data.message;
-            var messageList = document.getElementById('messages-list');
-            var messageItem = document.createElement('li');
+            const message = data.message;
+            const messageList = document.getElementById('messages-list');
+            const messageItem = document.createElement('li');
             messageItem.classList.add('message-item');
             messageItem.style.display = "flex";
             messageItem.style.marginBottom = "10px";
 
-            // Определяем выравнивание и цвет фона
-            var alignment = message.sender_id == {{ $chat->client->id }} ? 'left' : 'right';
-            var bgColor = alignment === 'left' ? '#d1e7dd' : '#f8d7da';
+            const alignment = message.sender_id == {{ $chat->client->id }} ? 'left' : 'right';
+            const bgColor = alignment === 'left' ? '#d1e7dd' : '#f8d7da';
 
-            // Форматирование даты
-            var createdAt = new Date(message.created_at);
-            var formattedDate = createdAt.toLocaleString('en-US', {
+            const createdAt = new Date(message.created_at);
+            const formattedDate = createdAt.toLocaleString('en-US', {
                 day: '2-digit',
                 month: 'short',
                 year: 'numeric',
@@ -83,7 +81,6 @@
                 hour12: false
             });
 
-            // Добавление сообщения в DOM
             messageItem.innerHTML = `
         <div style="flex: 1; text-align: ${alignment};">
             <div style="display: inline-block; max-width: 60%; padding: 10px; border-radius: 10px; background-color: ${bgColor};">
@@ -96,15 +93,13 @@
         </div>
     `;
 
-            // Добавляем сообщение в список
             messageList.appendChild(messageItem);
 
-            // Прокручиваем чат вниз
             scrollToBottom();
         });
 
         function scrollToBottom() {
-            var chatContainer = document.getElementById('chat-container');
+            const chatContainer = document.getElementById('chat-container');
             chatContainer.scrollTop = chatContainer.scrollHeight;
         }
 

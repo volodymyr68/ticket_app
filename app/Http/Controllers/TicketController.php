@@ -7,6 +7,8 @@ use App\Contracts\Services\VehicleService\VehicleService;
 use App\Http\Requests\TicketRequest;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class TicketController extends Controller
 {
@@ -20,6 +22,9 @@ class TicketController extends Controller
 
     /**
      * Display a listing of the resource.
+     *
+     * @param Request $request
+     * @return View
      */
     public function index(Request $request)
     {
@@ -34,6 +39,9 @@ class TicketController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     *
+     * @param TicketRequest $request
+     * @return RedirectResponse
      */
     public function store(TicketRequest $request)
     {
@@ -44,6 +52,9 @@ class TicketController extends Controller
 
     /**
      * Display the specified resource.
+     *
+     * @param Ticket $ticket
+     * @return View
      */
     public function show(Ticket $ticket)
     {
@@ -53,6 +64,9 @@ class TicketController extends Controller
 
     /**
      * Remove the specified resource from storage.
+     *
+     * @param Ticket $ticket
+     * @return RedirectResponse
      */
     public function destroy(Ticket $ticket)
     {
