@@ -2,20 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Contracts\Services\TicketService\TicketService;
-use App\Contracts\Services\VehicleService\VehicleService;
+use App\Contracts\Services\TicketServiceInterface;
+use App\Contracts\Services\VehicleServiceInterface;
 use App\Http\Requests\TicketRequest;
 use App\Models\Ticket;
-use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class TicketController extends Controller
 {
 
     public function __construct(
-        protected TicketService  $ticketService,
-        protected VehicleService $vehicleService
+        protected TicketServiceInterface  $ticketService,
+        protected VehicleServiceInterface $vehicleService
     )
     {
     }

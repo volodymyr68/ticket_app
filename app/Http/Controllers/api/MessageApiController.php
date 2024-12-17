@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\api;
 
-use App\Contracts\Services\MessageService\MessageService;
+use App\Contracts\Services\MessageServiceInterface;
 use App\Events\SendMessageEvent;
 use App\Http\Controllers\Controller;
+use App\Services\MessageService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class MessageApiController extends Controller
+class MessageApiController extends BaseApiController
 {
     /**
      * Constructor for MessageApiController.
@@ -20,13 +21,11 @@ class MessageApiController extends Controller
      * @param Request $request The incoming request.
      */
     public function __construct(
-        protected MessageService $messageService,
-        Request                  $request
+        protected MessageServiceInterface $messageService,
+        Request                           $request
     )
     {
-        if (!$request->expectsJson()) {
-            abort(406);
-        }
+        parent::__construct($request);
     }
 
     /**

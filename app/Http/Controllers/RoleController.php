@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RoleRequest;
+use App\Http\Requests\RoleRequestUpdate;
 use App\Models\Permission;
 use App\Models\Role;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class RoleController extends Controller
@@ -28,17 +29,11 @@ class RoleController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param Request $request
+     * @param RoleRequest $request
      * @return RedirectResponse
      */
-    public function store(Request $request)
+    public function store(RoleRequest $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:100|unique:roles,name',
-            'permissions' => 'required|array',
-            'permissions.*' => 'exists:permissions,id',
-        ]);
-
         $role = Role::create($request->only('name'));
 
         $role->permissions()->sync($request->permissions);
@@ -73,23 +68,17 @@ class RoleController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
+     * @param RoleRequestUpdate $request
      * @param Role $role
      * @return RedirectResponse
      */
-    public function update(Request $request, Role $role)
+    public function update(RoleRequestUpdate $request, Role $role)
     {
-        $request->validate([
-            'name' => 'required|string|max:100|unique:roles,name,' . $role->id,
-            'permissions' => 'required|array',
-            'permissions.*' => 'exists:permissions,id',
-        ]);
-
         $role->update($request->only('name'));
 
         $role->permissions()->sync($request->permissions);
 
-        return redirect()->route('roles.index')->with('success', 'Роль оновлена успішно!');
+        return redirect()->route('roles.index')->with('success');
     }
 
     /**
@@ -102,25 +91,6 @@ class RoleController extends Controller
     {
         $role->delete();
 
-        return redirect()->route('roles.index')->with('success', 'Роль видалена успішно!');
-    }
-
-    /**
-     * Update the specified resource's permissions in storage.
-     *
-     * @param Request $request
-     * @param Role $role
-     * @return RedirectResponse
-     */
-    public function updatePermissions(Request $request, Role $role)
-    {
-        $request->validate([
-            'permissions' => 'required|array',
-            'permissions.*' => 'exists:permissions,id',
-        ]);
-
-        $role->permissions()->sync($request->permissions);
-
-        return redirect()->route('roles.index')->with('success', 'Пермішени оновлено успішно!');
+        return redirect()->route('roles.index')->with('success');
     }
 }

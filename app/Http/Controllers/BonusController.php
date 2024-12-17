@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Contracts\Services\BonusService\BonusService;
-use App\Contracts\Services\UserService\UserService;
+use App\Contracts\Services\BonusServiceInterface;
+use App\Contracts\Services\UserServiceInterface;
 use App\Http\Requests\BonusRequest;
 use App\Models\Bonus;
+use App\Services\BonusService;
+use App\Services\UserService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
@@ -20,8 +22,8 @@ class BonusController extends Controller
      * @param UserService $userService Instance of UserService for handling user-related operations.
      */
     public function __construct(
-        protected BonusService $bonusService,
-        protected UserService  $userService
+        protected BonusServiceInterface $bonusService,
+        protected UserServiceInterface  $userService
     )
     {
     }

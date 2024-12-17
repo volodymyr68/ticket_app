@@ -18,7 +18,7 @@
                 <label for="amount" class="form-label">Bonus Amount</label>
                 <input type="number" name="amount" id="amount" class="form-control" required>
             </div>
-            <button type="submit" class="btn btn-success">Save</button>
+            <button type="submit" class="btn btn-primary">Save</button>
             <a href="{{ route('bonuses.index') }}" class="btn btn-secondary">Cancel</a>
         </form>
     </div>

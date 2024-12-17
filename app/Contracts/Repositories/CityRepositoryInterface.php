@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Contracts\Repositories\CityRepository;
+namespace App\Contracts\Repositories;
 
 use Illuminate\Pagination\LengthAwarePaginator;
 
 interface CityRepositoryInterface
 {
-    public function getFilteredCities(?array $filter): LengthAwarePaginator;
+    public function getFilteredCities(string $filter): LengthAwarePaginator;
 }

@@ -2,15 +2,14 @@
 
 @section('content')
     <div class="container">
-        <h1>Управління ролями</h1>
+        <h1>Role management</h1>
 
-        <table class="table">
-            <thead>
+        <table class="table table-bordered table-striped">
+            <thead class="table-dark">
             <tr>
-                <th>Роль</th>
-                <th>Пермішени</th>
-                <th>Оновити</th>
-                <th>Видалити</th>
+                <th>Role</th>
+                <th>Permissions</th>
+                <th>Update</th>
             </tr>
             </thead>
             <tbody>
@@ -23,7 +22,7 @@
                         @endforeach
                     </td>
                     <td>
-                        <a href="{{ route('roles.edit', $role->id) }}" class="btn btn-warning">Редагувати</a>
+                        <a href="{{ route('roles.edit', $role->id) }}" class="btn btn-warning">Edit</a>
                     </td>
                 </tr>
             @endforeach

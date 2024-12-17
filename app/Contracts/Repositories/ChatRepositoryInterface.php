@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Contracts\Repositories\ChatRepository;
+namespace App\Contracts\Repositories;
 
 use App\Models\Chat;
 

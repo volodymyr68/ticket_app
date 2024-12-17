@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Contracts\Services\RoleService;
+namespace App\Services;
 
-use App\Contracts\Repositories\RoleRepository\RoleRepository;
+use App\Contracts\Repositories\RoleRepositoryInterface;
 use App\Contracts\Services\BaseService;
+use App\Contracts\Services\RoleServiceInterface;
 
-class RoleService extends BaseService
+class RoleService extends BaseService implements RoleServiceInterface
 {
     public function __construct(
-        protected RoleRepository $roleRepository
+        protected RoleRepositoryInterface $roleRepository
     )
     {
         parent::__construct($roleRepository);

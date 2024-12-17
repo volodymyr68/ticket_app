@@ -2,17 +2,16 @@
 
 namespace App\Http\Controllers\api;
 
-use App\Contracts\Services\VehicleService\VehicleService;
-use App\Http\Controllers\Controller;
+use App\Contracts\Services\VehicleServiceInterface;
 use App\Http\Resources\VehicleCollection;
 use App\Http\Resources\VehicleResource;
 use App\Models\Vehicle;
-use Illuminate\Http\Request;
+use App\Services\VehicleService;
 use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class VehicleApiController extends Controller
+class VehicleApiController extends BaseApiController
 {
 
     /**
@@ -25,12 +24,10 @@ class VehicleApiController extends Controller
      * @param Request $request The HTTP request.
      */
     public function __construct(
-        protected VehicleService $vehicleService,
-        Request                  $request)
+        protected VehicleServiceInterface $vehicleService,
+        Request                           $request)
     {
-        if (!$request->expectsJson()) {
-            abort(406);
-        }
+        parent::__construct($request);
     }
 
 

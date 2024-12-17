@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Contracts\Services\RoleService\RoleService;
-use App\Contracts\Services\UserService\UserService;
+use App\Contracts\Services\RoleServiceInterface;
+use App\Contracts\Services\UserServiceInterface;
 use App\Http\Requests\UserRequest;
 use App\Models\Role;
 use App\Models\User;
+use App\Services\RoleService;
+use App\Services\UserService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -21,8 +23,8 @@ class UserController extends Controller
      * @param RoleService $roleService The service for managing role data.
      */
     public function __construct(
-        protected UserService $userService,
-        protected RoleService $roleService
+        protected UserServiceInterface $userService,
+        protected RoleServiceInterface $roleService
     )
     {
     }

@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Contracts\Repositories\VehicleRepository;
+namespace App\Repositories;
 
 use App\Contracts\Repositories\BaseRepository;
+use App\Contracts\Repositories\VehicleRepositoryInterface;
 use App\Models\Vehicle;
 use Illuminate\Pagination\LengthAwarePaginator;
 

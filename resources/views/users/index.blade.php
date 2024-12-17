@@ -5,10 +5,8 @@
     <div class="container mt-5">
         <h2 class="mb-4">User List</h2>
 
-        <!-- Фильтры -->
         <form method="GET" action="{{ route('user.index') }}" class="mb-4">
             <div class="row g-3">
-                <!-- Поиск -->
                 <div class="col-md-4">
                     <input
                         type="text"
@@ -18,7 +16,6 @@
                         value="{{ request('search') }}">
                 </div>
 
-                <!-- Фильтр по роли -->
                 <div class="col-md-3">
                     <select name="role" class="form-select">
                         <option value="">Filter by Role</option>
@@ -30,7 +27,6 @@
                     </select>
                 </div>
 
-                <!-- Фильтр по полу -->
                 <div class="col-md-3">
                     <select name="sex" class="form-select">
                         <option value="">Filter by Gender</option>
@@ -39,26 +35,21 @@
                     </select>
                 </div>
 
-                <!-- Кнопки -->
                 <div class="col-md-2 d-flex">
                     <button type="submit" class="btn btn-primary me-2">Filter</button>
                     <a href="{{ route('user.index') }}" class="btn btn-secondary">Reset</a>
                 </div>
             </div>
         </form>
+        <a href="{{ route('user.create') }}" class="btn btn-primary mb-3">
+            <i class="glyphicon glyphicon-plus"></i> Create New User
+        </a>
 
-        <!-- Таблица -->
-        <table class="table table-striped table-bordered">
+        <table class="table table-bordered table-striped">
             <thead class="table-dark">
             <tr>
                 <th>
-                    <a href="{{ route('user.index', array_merge(request()->all(), ['sort' => 'id', 'direction' => request('direction') === 'asc' ? 'desc' : 'asc'])) }}"
-                       class="text-light">
-                        #
-                        @if(request('sort') === 'id')
-                            <i class="ms-1 {{ request('direction') === 'asc' ? 'fas fa-arrow-up' : 'fas fa-arrow-down' }}"></i>
-                        @endif
-                    </a>
+                    ID
                 </th>
                 <th>
                     <a href="{{ route('user.index', array_merge(request()->all(), ['sort' => 'name', 'direction' => request('direction') === 'asc' ? 'desc' : 'asc'])) }}"
@@ -129,9 +120,8 @@
             </tbody>
         </table>
 
-        <!-- Пагинация -->
-        <div class="mt-4">
-            {{ $users->links() }}
+        <div class="d-flex justify-content-center">
+            {{ $users->appends(request()->except('page'))->links('pagination::bootstrap-5') }}
         </div>
     </div>
 @endsection

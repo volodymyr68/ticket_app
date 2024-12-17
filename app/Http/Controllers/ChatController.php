@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Contracts\Services\ChatService\ChatService;
-use App\Contracts\Services\UserService\UserService;
+use App\Contracts\Services\ChatServiceInterface;
+use App\Contracts\Services\UserServiceInterface;
 use App\Http\Requests\ChatRequest;
 use App\Models\Chat;
+use App\Services\ChatService;
+use App\Services\UserService;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -21,8 +23,8 @@ class ChatController extends Controller
      * @param UserService $userService The UserService instance for managing user-related operations.
      */
     public function __construct(
-        protected ChatService $chatService,
-        protected UserService $userService
+        protected ChatServiceInterface $chatService,
+        protected UserServiceInterface $userService
     )
     {
     }
@@ -72,7 +74,7 @@ class ChatController extends Controller
     public function create()
     {
         $clients = $this->userService->getAllClients();
-        return view("chats.create", compact('clients'));
+        return view('chats.create', compact('clients'));
     }
 
 
@@ -89,7 +91,7 @@ class ChatController extends Controller
     public function show(Chat $chat)
     {
         $messages = $chat->messages;
-        return view("chats.show", compact('chat', 'messages'));
+        return view('chats.show', compact('chat', 'messages'));
     }
 
 

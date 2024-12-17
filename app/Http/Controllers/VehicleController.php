@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Contracts\Services\CityService\CityService;
-use App\Contracts\Services\VehicleService\VehicleService;
+use App\Contracts\Services\CityServiceInterface;
+use App\Contracts\Services\VehicleServiceInterface;
 use App\Http\Requests\VehicleCreateRequest;
 use App\Jobs\GenerateVehiclePdf;
 use App\Models\City;
 use App\Models\Vehicle;
-use Illuminate\Http\Request;
+use App\Services\CityService;
+use App\Services\VehicleService;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\View\View;
 
 class VehicleController extends Controller
@@ -22,8 +25,8 @@ class VehicleController extends Controller
      * @param CityService $cityService The service for managing cities.
      */
     public function __construct(
-        protected VehicleService $vehicleService,
-        protected CityService    $cityService
+        protected VehicleServiceInterface $vehicleService,
+        protected CityServiceInterface    $cityService
     )
     {
     }
@@ -40,7 +43,7 @@ class VehicleController extends Controller
         $this->authorizeAction('viewAny');
         $filters = $request->only(['quality', 'departure_city_id', 'destination_city_id', 'ticket_cost', 'seats_quantity']);
 
-        $vehicles = $this->vehicleService->getSortedVehicles($filters, 10);
+        $vehicles = $this->vehicleService->getSortedVehicles($filters);
         $cities = City::all();
 
         return view('vehicles.index', compact('vehicles', 'cities'));
@@ -131,11 +134,15 @@ class VehicleController extends Controller
     /**
      * Export vehicles to a PDF file.
      *
-     * @param Request $request The incoming request.
      */
     public function exportVehicles(Request $request)
     {
-        $vehicles = $this->vehicleService->getAllPaginated(10);
+        $filters = $request->only(['quality', 'departure_city_id', 'destination_city_id', 'ticket_cost', 'seats_quantity']);
+
+        $vehicles = $this->vehicleService->getSortedVehicles($filters);
+
         GenerateVehiclePdf::dispatch($vehicles);
+
+        return response()->json(['success' => true]);
     }
 }

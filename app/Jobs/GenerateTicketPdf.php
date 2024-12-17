@@ -23,7 +23,6 @@ class GenerateTicketPdf implements ShouldQueue
         protected Ticket $ticket
     )
     {
-        //
     }
 
     /**
@@ -38,7 +37,8 @@ class GenerateTicketPdf implements ShouldQueue
         $fileUrl = Storage::url($filename);
         $this->ticket->url = $fileUrl;
         $this->ticket->save();
-        $APP_URL = 'http://localhost:8080';
+
+        $APP_URL = config('app.url');
         $downloadUrl = $APP_URL . $fileUrl;
         broadcast(new SendTicketEvent($downloadUrl));
     }

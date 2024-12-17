@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\api;
 
-use App\Contracts\Services\BonusService\BonusService;
+use App\Contracts\Services\BonusServiceInterface;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Services\BonusService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
-class BonusApiController extends Controller
+class BonusApiController extends BaseApiController
 {
     /**
      * Constructor for BonusApiController.
@@ -19,13 +20,11 @@ class BonusApiController extends Controller
      * @param Request $request The incoming request.
      */
     public function __construct(
-        protected BonusService $bonusService,
-        Request                $request
+        protected BonusServiceInterface $bonusService,
+        Request                         $request
     )
     {
-        if (!$request->expectsJson()) {
-            abort(406);
-        }
+        parent::__construct($request);
     }
 
     /**

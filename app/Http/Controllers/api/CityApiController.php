@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\api;
 
-use App\Contracts\Services\CityService\CityService;
+use App\Contracts\Services\CityServiceInterface;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Services\CityService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
-class CityApiController extends Controller
+class CityApiController extends BaseApiController
 {
     /**
      * CityApiController constructor.
@@ -19,13 +20,11 @@ class CityApiController extends Controller
      * @param Request $request The incoming request.
      */
     public function __construct(
-        protected CityService $cityService,
-        Request               $request
+        protected CityServiceInterface $cityService,
+        Request                        $request
     )
     {
-        if (!$request->expectsJson()) {
-            abort(406);
-        }
+        parent::__construct($request);
     }
 
 

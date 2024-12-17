@@ -6,6 +6,7 @@ use App\Events\DownloadAdminPdf;
 use App\Models\Vehicle;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
@@ -21,7 +22,7 @@ class GenerateVehiclePdf implements ShouldQueue
      * Create a new job instance.
      */
     public function __construct(
-        protected Vehicle $vehicles
+        protected Vehicle|LengthAwarePaginator $vehicles
     )
     {
     }
@@ -32,7 +33,7 @@ class GenerateVehiclePdf implements ShouldQueue
     public function handle(): void
     {
         $pdf = Pdf::loadView('pdfs.vehicles', ['vehicles' => $this->vehicles]);
-        $filename = 'vehicles_reports' . '.pdf';
+        $filename = 'vehicles_reports' . now()->timestamp . '.pdf';
         $disk = 'public';
         $pdf->save($filename, $disk);
         $fileUrl = Storage::url($filename);

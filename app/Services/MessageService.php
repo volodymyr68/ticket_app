@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Contracts\Services\MessageService;
+namespace App\Services;
 
-use App\Contracts\Repositories\MessageRepository\MessageRepository;
+use App\Contracts\Repositories\MessageRepositoryInterface;
 use App\Contracts\Services\BaseService;
+use App\Contracts\Services\MessageServiceInterface;
 
-class MessageService extends BaseService
+class MessageService extends BaseService implements MessageServiceInterface
 {
     public function __construct(
-        protected MessageRepository $messageRepository
+        protected MessageRepositoryInterface $messageRepository
     )
     {
         parent::__construct($messageRepository);

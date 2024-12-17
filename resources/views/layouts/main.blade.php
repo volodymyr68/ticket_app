@@ -16,16 +16,17 @@
             <a href="{{ route('login') }}">Login</a>
         @endguest
         @auth()
-            <a href="{{ route('logout') }}"
-               onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
-            >Logout</a>
             <a href="{{route('cities.index')}}">City</a>
             <a href="{{route('vehicle.index')}}">Vehicles</a>
             <a href="{{route('user.index')}}">Users</a>
             <a href="{{route('ticket.index')}}">Tickets</a>
             <a href="{{route('chats.index')}}">Chats</a>
             <a href="{{route('bonuses.index')}}">Bonuses</a>
+            <a href="{{route('roles.index')}}">Permissions</a>
             <div style="color: white">Hello {{Auth::user()->name}}</div>
+            <a href="{{ route('logout') }}"
+               onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+            >Logout</a>
             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                 @csrf
             </form>

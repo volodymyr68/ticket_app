@@ -6,7 +6,6 @@ use App\Events\DownloadAdminPdf;
 use App\Events\SendMessageEvent;
 use App\Events\SendTicketEvent;
 use App\Listeners\DownloadAdminPdfEventListener;
-use App\Listeners\SendEventNotification;
 use App\Listeners\SendMessageEventListener;
 use App\Listeners\SendTicketEventListener;
 use Illuminate\Auth\Events\Registered;

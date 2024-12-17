@@ -40,7 +40,6 @@
         </tbody>
     </table>
 
-    <!-- Statistics Section -->
     <div class="statistics">
         <h3>Summary Statistics</h3>
         <p><strong>Total Vehicles:</strong> {{ count($vehicles) }}</p>
@@ -60,14 +59,12 @@
             ${{ number_format($vehicles->min('ticket_cost'), 2) }}
         </p>
 
-        <!-- Most Popular Quality -->
         <p><strong>Most Popular Quality:</strong>
             {{ $vehicles->groupBy('quality')->sortByDesc(function ($quality) {
                 return $quality->count();
             })->keys()->first() ?? 'N/A' }}
         </p>
 
-        <!-- Departure City with Most Vehicles -->
         <p><strong>City with Most Vehicles:</strong>
             {{ $vehicles->groupBy('departureCity.name')->sortByDesc(function ($city) {
                 return $city->count();

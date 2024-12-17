@@ -1,45 +1,41 @@
 @extends('layouts.main')
 
 @section('content')
-    <h1>Chats</h1>
-
-    <div style="margin-bottom: 20px;">
-        <a href="{{ route('chats.create') }}" class="btn btn-success">Create New Chat</a>
+    <div class="container mt-4">
+        <h1 class="mb-4 text-center">Chats</h1>
+        <a href="{{ route('chats.create') }}" class="btn btn-primary mb-3">Create New Chat</a>
+        @if($chats->isEmpty())
+            <p class="text-center">No chats available.</p>
+        @else
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                    <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Client</th>
+                        <th>Manager</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($chats as $chat)
+                        <tr>
+                            <td>{{ $chat->id }}</td>
+                            <td>{{ $chat->client->name ?? 'Unknown' }}</td>
+                            <td>{{ $chat->manager->name ?? 'Not Assigned' }}</td>
+                            <td>
+                                <a href="{{ route('chats.show', $chat->id) }}" class="btn btn-primary btn-sm">Show</a>
+                                <form action="{{ route('chats.destroy', $chat->id) }}" method="POST" class="d-inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+            </div>
+        @endif
     </div>
-
-    @if($chats->isEmpty())
-        <p>No chats available.</p>
-    @else
-        <table style="width: 100%; border-collapse: collapse;">
-            <thead>
-            <tr>
-                <th style="border: 1px solid #ddd; padding: 10px;">ID</th>
-                <th style="border: 1px solid #ddd; padding: 10px;">Client</th>
-                <th style="border: 1px solid #ddd; padding: 10px;">Manager</th>
-                <th style="border: 1px solid #ddd; padding: 10px;">Actions</th>
-            </tr>
-            </thead>
-            <tbody>
-            @foreach($chats as $chat)
-                <tr>
-                    <td style="border: 1px solid #ddd; padding: 10px;">{{ $chat->id }}</td>
-                    <td style="border: 1px solid #ddd; padding: 10px;">{{ $chat->client->name ?? 'Unknown' }}</td>
-                    <td style="border: 1px solid #ddd; padding: 10px;">{{ $chat->manager->name ?? 'Not Assigned' }}</td>
-                    <td style="border: 1px solid #ddd; padding: 10px;">
-                        <a href="{{ route('chats.show', $chat->id) }}" class="btn btn-primary"
-                           style="margin-right: 10px;">Show</a>
-
-                        <form action="{{ route('chats.destroy', $chat->id) }}" method="POST" style="display: inline;">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure?')">
-                                Delete
-                            </button>
-                        </form>
-                    </td>
-                </tr>
-            @endforeach
-            </tbody>
-        </table>
-    @endif
 @endsection

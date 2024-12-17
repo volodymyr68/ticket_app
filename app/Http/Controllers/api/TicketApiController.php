@@ -2,18 +2,19 @@
 
 namespace App\Http\Controllers\api;
 
-use App\Contracts\Services\TicketService\TicketService;
+use App\Contracts\Services\TicketServiceInterface;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TicketRequest;
 use App\Http\Resources\TicketCollection;
 use App\Http\Resources\TicketResource;
 use App\Jobs\GenerateTicketPdf;
 use App\Models\Ticket;
+use App\Services\TicketService;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class TicketApiController extends Controller
+class TicketApiController extends BaseApiController
 {
 
     /**
@@ -26,12 +27,10 @@ class TicketApiController extends Controller
      * @param Request $request The request object containing information about the incoming request.
      */
     public function __construct(
-        protected TicketService $ticketService,
-        Request                 $request)
+        protected TicketServiceInterface $ticketService,
+        Request                          $request)
     {
-        if (!$request->expectsJson()) {
-            abort(406);
-        }
+        parent::__construct($request);
     }
 
 

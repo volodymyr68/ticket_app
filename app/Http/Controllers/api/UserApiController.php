@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\api;
 
-use App\Contracts\Services\UserService\UserService;
+use App\Contracts\Services\UserServiceInterface;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserUpdateApiRequest;
 use App\Http\Resources\UserResource;
+use App\Services\UserService;
 use Illuminate\Http\Request;
-use Illuminate\Contracts\Container\BindingResolutionException;
 
-class UserApiController extends Controller
+class UserApiController extends BaseApiController
 {
 
     /**
@@ -24,13 +24,11 @@ class UserApiController extends Controller
      *
      */
     public function __construct(
-        protected UserService $userService,
-        Request               $request
+        protected UserServiceInterface $userService,
+        Request                        $request
     )
     {
-        if (!$request->expectsJson()) {
-            abort(406);
-        }
+        parent::__construct($request);
     }
 
 

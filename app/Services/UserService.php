@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Contracts\Services\UserService;
+namespace App\Services;
 
 use App\Contracts\Repositories\UserRepositoryInterface;
 use App\Contracts\Services\BaseService;
+use App\Contracts\Services\UserServiceInterface;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 
-class UserService extends BaseService
+class UserService extends BaseService implements UserServiceInterface
 {
     public function __construct(
         protected UserRepositoryInterface $userRepository

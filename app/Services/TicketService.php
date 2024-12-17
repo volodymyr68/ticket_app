@@ -1,20 +1,23 @@
 <?php
 
-namespace App\Contracts\Services\TicketService;
+namespace App\Services;
 
 use App\Contracts\Repositories\BonusRepositoryInterface;
-use App\Contracts\Repositories\TicketRepository\TicketRepository;
-use App\Contracts\Repositories\VehicleRepository\VehicleRepository;
+use App\Contracts\Repositories\TicketRepositoryInterface;
+use App\Contracts\Repositories\VehicleRepositoryInterface;
 use App\Contracts\Services\BaseService;
+use App\Contracts\Services\TicketServiceInterface;
 use App\Mail\TicketBought;
 use App\Models\Ticket;
 use App\Repositories\BonusRepository;
+use App\Repositories\TicketRepository;
+use App\Repositories\VehicleRepository;
 use Exception;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Mail;
 
-class TicketService extends BaseService
+class TicketService extends BaseService implements TicketServiceInterface
 {
 
     /**
@@ -27,8 +30,8 @@ class TicketService extends BaseService
      * @param BonusRepository $bonusRepository The repository for managing bonuses.
      */
     public function __construct(
-        protected TicketRepository  $ticketRepository,
-        protected VehicleRepository $vehicleRepository,
+        protected TicketRepositoryInterface  $ticketRepository,
+        protected VehicleRepositoryInterface $vehicleRepository,
         protected BonusRepositoryInterface   $bonusRepository
     )
     {
@@ -92,7 +95,7 @@ class TicketService extends BaseService
     {
         $data['user_id'] = auth()->user()->id;
         $vehicle = $this->vehicleRepository->find($data['vehicle_id']);
-        if(!$vehicle){
+        if (!$vehicle) {
             throw new Exception('Vehicle with ID ' . $data['vehicle_id'] . ' not found ');
         }
 
@@ -104,7 +107,12 @@ class TicketService extends BaseService
         $this->vehicleRepository->update($vehicle->id, ['seats_quantity' => $vehicle->seats_quantity]);
 
         $bonus = $this->bonusRepository->getUserBonus();
-        $ticket = $this->repository->create($data);
+
+        if(!$bonus){
+            $bonus = $this->bonusRepository->create(['user_id' => auth()->user()->id, 'amount' => 0]);
+        }
+
+        $ticket = $this->ticketRepository->create($data);
 
         if ($data['bonus']) {
             $this->bonusRepository->update($bonus, ['amount' => 10.00]);

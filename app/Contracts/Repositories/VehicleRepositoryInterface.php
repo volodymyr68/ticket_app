@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Contracts\Repositories\VehicleRepository;
+namespace App\Contracts\Repositories;
 
 use Illuminate\Pagination\LengthAwarePaginator;
 

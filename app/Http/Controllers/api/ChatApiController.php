@@ -2,16 +2,18 @@
 
 namespace App\Http\Controllers\api;
 
-use App\Contracts\Services\ChatService\ChatService;
-use App\Contracts\Services\UserService\UserService;
+use App\Contracts\Services\ChatServiceInterface;
+use App\Contracts\Services\UserServiceInterface;
 use App\Http\Controllers\Controller;
 use App\Models\Chat;
-use Illuminate\Http\Request;
+use App\Services\ChatService;
+use App\Services\UserService;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class ChatApiController extends Controller
+class ChatApiController extends BaseApiController
 {
     /**
      * ChatApiController constructor.
@@ -25,14 +27,12 @@ class ChatApiController extends Controller
      * @throws ResponseFactory|Response
      */
     public function __construct(
-        protected ChatService $chatService,
-        protected UserService $userService,
-        Request               $request
+        protected ChatServiceInterface $chatService,
+        protected UserServiceInterface $userService,
+        Request                        $request
     )
     {
-        if (!$request->expectsJson()) {
-            abort(406);
-        }
+        parent::__construct($request);
     }
 
 

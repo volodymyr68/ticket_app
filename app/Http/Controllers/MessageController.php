@@ -2,18 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Contracts\Services\MessageService\MessageService;
+use App\Contracts\Services\MessageServiceInterface;
 use App\Events\SendMessageEvent;
 use App\Models\Chat;
-use Illuminate\Http\Request;
+use App\Services\MessageService;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
 class MessageController extends Controller
 {
 
     public function __construct(
-        protected MessageService $messageService
+        protected MessageServiceInterface $messageService
     )
     {
     }

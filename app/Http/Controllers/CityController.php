@@ -2,17 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Contracts\Services\CityService\CityService;
+use App\Contracts\Services\CityServiceInterface;
 use App\Http\Requests\CityRequest;
 use App\Models\City;
-use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class CityController extends Controller
 {
 
-    public function __construct(protected CityService $cityService)
+    public function __construct(
+        protected CityServiceInterface $cityService
+    )
     {
     }
 

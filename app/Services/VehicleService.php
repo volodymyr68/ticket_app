@@ -1,26 +1,28 @@
 <?php
 
-namespace App\Contracts\Services\VehicleService;
+namespace App\Services;
 
-use App\Contracts\Repositories\VehicleRepository\VehicleRepository;
+use App\Contracts\Repositories\VehicleRepositoryInterface;
 use App\Contracts\Services\BaseService;
+use App\Contracts\Services\VehicleServiceInterface;
+use Illuminate\Pagination\LengthAwarePaginator;
 
-class VehicleService extends BaseService
+class VehicleService extends BaseService implements VehicleServiceInterface
 {
 
     public function __construct(
-        protected VehicleRepository $vehicleRepository
+        protected VehicleRepositoryInterface $vehicleRepository
     )
     {
         parent::__construct($vehicleRepository);
     }
 
-    public function getFilteredVehicles($filters)
+    public function getFilteredVehicles(array $filters): LengthAwarePaginator
     {
         return $this->vehicleRepository->getVehiclesByFilters($filters);
     }
 
-    public function getSortedVehicles(?array $filters, int $perPage = 10)
+    public function getSortedVehicles(?array $filters, int $perPage = 10): LengthAwarePaginator
     {
         return $this->vehicleRepository->getSortedVehicles($filters, $perPage);
     }
