@@ -4,6 +4,7 @@ namespace App\Http\Controllers\api;
 
 use App\Contracts\Services\MessageServiceInterface;
 use App\Events\SendMessageEvent;
+use App\Http\Requests\MessageRequest;
 use App\Services\MessageService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -33,12 +34,12 @@ class MessageApiController extends BaseApiController
      * This function handles the logic for storing a new message in the database and broadcasting it to the chat.
      * It also validates the incoming request and prepares the necessary data for the message creation.
      *
-     * @param Request $request The incoming request containing the message content.
+     * @param MessageRequest $request The incoming request containing the message content.
      * @param mixed $chat The identifier of the chat where the message will be sent.
      *
      * @return JsonResponse The response containing a success message and a 200 status code.
      */
-    public function store(Request $request, $chat)
+    public function store(MessageRequest $request, $chat)
     {
         $data = ['chat_id' => (int)$chat, 'sender_id' => auth()->id(), 'message' => $request->message];
         $message = $this->messageService->create($data);
