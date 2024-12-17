@@ -2,7 +2,7 @@
 
 namespace App\Contracts\Services;
 
-interface CityServiceInterface
+interface CityServiceInterface extends  BaseServiceInterface
 {
 
 }

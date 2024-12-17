@@ -4,7 +4,6 @@ namespace App\Http\Controllers\api;
 
 use App\Contracts\Services\MessageServiceInterface;
 use App\Events\SendMessageEvent;
-use App\Http\Controllers\Controller;
 use App\Services\MessageService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;

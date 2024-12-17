@@ -2,7 +2,7 @@
 
 namespace App\Contracts\Services;
 
-interface VehicleServiceInterface
+interface VehicleServiceInterface extends  BaseServiceInterface
 {
 
 }

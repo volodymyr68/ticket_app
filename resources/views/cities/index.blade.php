@@ -8,20 +8,20 @@
 
 
         <div class="row mt-3">
-        <form class="form-inline mb-4" method="GET">
-            <div class="form-group me-2">
-                <label for="filter" class="form-label">Filter</label>
-                <input type="text" class="form-control" id="filter" name="filter" placeholder="City name..."
-                       value="{{ request('filter') }}">
-            </div>
-
-            <div class="row mt-3">
-                <div class="col-md-12 d-flex justify-content-end">
-                    <button type="submit" class="btn btn-primary me-2">Filter</button>
-                    <a href="{{ route('cities.index') }}" class="btn btn-secondary">Reset</a>
+            <form class="form-inline mb-4" method="GET">
+                <div class="form-group me-2">
+                    <label for="filter" class="form-label">Filter</label>
+                    <input type="text" class="form-control" id="filter" name="filter" placeholder="City name..."
+                           value="{{ request('filter') }}">
                 </div>
-            </div>
-        </form>
+
+                <div class="row mt-3">
+                    <div class="col-md-12 d-flex justify-content-end">
+                        <button type="submit" class="btn btn-primary me-2">Filter</button>
+                        <a href="{{ route('cities.index') }}" class="btn btn-secondary">Reset</a>
+                    </div>
+                </div>
+            </form>
         </div>
         <a href="{{ route('cities.create') }}" class="btn btn-primary mb-3">
             <i class="glyphicon glyphicon-plus"></i> Create New City

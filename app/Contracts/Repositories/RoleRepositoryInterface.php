@@ -2,7 +2,7 @@
 
 namespace App\Contracts\Repositories;
 
-interface RoleRepositoryInterface
+interface RoleRepositoryInterface extends BaseRepositoryInterface
 {
 
 }

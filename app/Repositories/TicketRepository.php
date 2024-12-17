@@ -2,7 +2,6 @@
 
 namespace App\Repositories;
 
-use App\Contracts\Repositories\BaseRepository;
 use App\Contracts\Repositories\TicketRepositoryInterface;
 use App\Models\Ticket;
 use Illuminate\Pagination\LengthAwarePaginator;

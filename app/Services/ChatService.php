@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Contracts\Repositories\ChatRepositoryInterface;
-use App\Contracts\Services\BaseService;
 use App\Contracts\Services\ChatServiceInterface;
 use App\Models\Chat;
 

@@ -2,7 +2,7 @@
 
 namespace App\Contracts\Services;
 
-interface MessageServiceInterface
+interface MessageServiceInterface extends  BaseServiceInterface
 {
 
 }

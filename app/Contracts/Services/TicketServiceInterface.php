@@ -2,7 +2,7 @@
 
 namespace App\Contracts\Services;
 
-interface TicketServiceInterface
+interface TicketServiceInterface extends  BaseServiceInterface
 {
 
 }

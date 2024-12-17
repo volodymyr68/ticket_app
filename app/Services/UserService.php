@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Contracts\Repositories\UserRepositoryInterface;
-use App\Contracts\Services\BaseService;
 use App\Contracts\Services\UserServiceInterface;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;

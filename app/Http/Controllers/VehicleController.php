@@ -12,7 +12,6 @@ use App\Services\CityService;
 use App\Services\VehicleService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
 use Illuminate\View\View;
 
 class VehicleController extends Controller

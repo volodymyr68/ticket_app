@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Contracts\Repositories\RoleRepositoryInterface;
-use App\Contracts\Services\BaseService;
 use App\Contracts\Services\RoleServiceInterface;
 
 class RoleService extends BaseService implements RoleServiceInterface

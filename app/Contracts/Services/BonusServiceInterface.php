@@ -2,7 +2,7 @@
 
 namespace App\Contracts\Services;
 
-interface BonusServiceInterface
+interface BonusServiceInterface extends  BaseServiceInterface
 {
 
 }

@@ -10,6 +10,7 @@ use Illuminate\Routing\Controller as BaseController;
 class BaseApiController extends BaseController
 {
     use AuthorizesRequests, ValidatesRequests;
+
     public function __construct(Request $request)
     {
         if (!$request->expectsJson()) {

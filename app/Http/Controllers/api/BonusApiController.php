@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\api;
 
 use App\Contracts\Services\BonusServiceInterface;
-use App\Http\Controllers\Controller;
 use App\Services\BonusService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;

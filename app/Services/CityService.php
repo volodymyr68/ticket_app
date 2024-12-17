@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Contracts\Repositories\CityRepositoryInterface;
-use App\Contracts\Services\BaseService;
 use App\Contracts\Services\CityServiceInterface;
 use Illuminate\Pagination\LengthAwarePaginator;
 

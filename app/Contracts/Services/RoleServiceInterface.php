@@ -2,7 +2,7 @@
 
 namespace App\Contracts\Services;
 
-interface RoleServiceInterface
+interface RoleServiceInterface extends  BaseServiceInterface
 {
 
 }

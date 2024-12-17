@@ -2,7 +2,7 @@
 
 namespace App\Contracts\Repositories;
 
-interface MessageRepositoryInterface
+interface MessageRepositoryInterface extends BaseRepositoryInterface
 {
 
 }

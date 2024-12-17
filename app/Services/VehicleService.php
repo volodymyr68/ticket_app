@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Contracts\Repositories\VehicleRepositoryInterface;
-use App\Contracts\Services\BaseService;
 use App\Contracts\Services\VehicleServiceInterface;
 use Illuminate\Pagination\LengthAwarePaginator;
 

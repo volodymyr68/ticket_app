@@ -4,7 +4,6 @@ namespace App\Http\Controllers\api;
 
 use App\Contracts\Services\ChatServiceInterface;
 use App\Contracts\Services\UserServiceInterface;
-use App\Http\Controllers\Controller;
 use App\Models\Chat;
 use App\Services\ChatService;
 use App\Services\UserService;

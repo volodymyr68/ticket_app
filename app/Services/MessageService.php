@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Contracts\Repositories\MessageRepositoryInterface;
-use App\Contracts\Services\BaseService;
 use App\Contracts\Services\MessageServiceInterface;
 
 class MessageService extends BaseService implements MessageServiceInterface

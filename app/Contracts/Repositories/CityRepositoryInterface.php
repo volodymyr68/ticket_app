@@ -4,7 +4,7 @@ namespace App\Contracts\Repositories;
 
 use Illuminate\Pagination\LengthAwarePaginator;
 
-interface CityRepositoryInterface
+interface CityRepositoryInterface extends BaseRepositoryInterface
 {
     public function getFilteredCities(string $filter): LengthAwarePaginator;
 }

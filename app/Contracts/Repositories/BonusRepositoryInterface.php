@@ -2,7 +2,7 @@
 
 namespace App\Contracts\Repositories;
 
-interface BonusRepositoryInterface
+interface BonusRepositoryInterface extends BaseRepositoryInterface
 {
 
 }

@@ -5,7 +5,7 @@ namespace App\Contracts\Repositories;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 
-interface TicketRepositoryInterface
+interface TicketRepositoryInterface extends BaseRepositoryInterface
 {
     public function getTicketsByUser(int $userId): Collection;
 

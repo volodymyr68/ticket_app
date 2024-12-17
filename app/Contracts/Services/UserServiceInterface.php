@@ -2,7 +2,7 @@
 
 namespace App\Contracts\Services;
 
-interface UserServiceInterface
+interface UserServiceInterface extends  BaseServiceInterface
 {
 
 }

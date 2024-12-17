@@ -5,7 +5,6 @@ namespace App\Services;
 use App\Contracts\Repositories\BonusRepositoryInterface;
 use App\Contracts\Repositories\TicketRepositoryInterface;
 use App\Contracts\Repositories\VehicleRepositoryInterface;
-use App\Contracts\Services\BaseService;
 use App\Contracts\Services\TicketServiceInterface;
 use App\Mail\TicketBought;
 use App\Models\Ticket;
@@ -108,7 +107,7 @@ class TicketService extends BaseService implements TicketServiceInterface
 
         $bonus = $this->bonusRepository->getUserBonus();
 
-        if(!$bonus){
+        if (!$bonus) {
             $bonus = $this->bonusRepository->create(['user_id' => auth()->user()->id, 'amount' => 0]);
         }
 

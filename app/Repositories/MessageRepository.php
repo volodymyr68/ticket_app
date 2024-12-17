@@ -2,7 +2,6 @@
 
 namespace App\Repositories;
 
-use App\Contracts\Repositories\BaseRepository;
 use App\Contracts\Repositories\MessageRepositoryInterface;
 use App\Models\Message;
 

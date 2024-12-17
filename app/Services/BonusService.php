@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Contracts\Repositories\BonusRepositoryInterface;
-use App\Contracts\Services\BaseService;
 use App\Contracts\Services\BonusServiceInterface;
 use App\Models\Bonus;
 

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\api;
 
 use App\Contracts\Services\UserServiceInterface;
-use App\Http\Controllers\Controller;
 use App\Http\Requests\UserUpdateApiRequest;
 use App\Http\Resources\UserResource;
 use App\Services\UserService;

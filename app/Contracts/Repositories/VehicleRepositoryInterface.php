@@ -4,7 +4,7 @@ namespace App\Contracts\Repositories;
 
 use Illuminate\Pagination\LengthAwarePaginator;
 
-interface VehicleRepositoryInterface
+interface VehicleRepositoryInterface extends BaseRepositoryInterface
 {
     public function getVehiclesByFilters(?array $filters): LengthAwarePaginator;
 
